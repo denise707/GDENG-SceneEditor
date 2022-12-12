@@ -2,6 +2,8 @@
 #include "imgui.h"
 #include "UIManager.h"
 #include "HierarchyScreen.h"
+#include "InspectorScreen.h"
+#include "SceneControlsScreen.h"
 #include "GameObjectManager.h"
 
 #include <iostream>
@@ -38,12 +40,20 @@ void MenuScreen::drawUI()
 			if (ImGui::MenuItem("Load Scene..")) { loadScene(); }
             ImGui::EndMenu();
         }
+		if (ImGui::BeginMenu("Windows"))
+		{
+			if (ImGui::MenuItem("Heirarchy")) { HierarchyScreen::isOpen = true; }
+			if (ImGui::MenuItem("Inspector")) { InspectorScreen::isOpen = true; }
+			if (ImGui::MenuItem("Scene Controls")) { SceneControlsScreen::isOpen = true; }
+			ImGui::EndMenu();
+		}
         ImGui::EndMainMenuBar();
     }
 }
 
 void MenuScreen::saveScene()
 {
+		// CHECK 
 	String fileDir = "D:\\Academics\\Study References\\DLSU 4th Year - Term 1\\GDENG2\\Final Exam\\Game Engine\\SavedFiles\\" + to_string(index) +  ".iet";
 
 	FileWriter  sceneFile;

@@ -3,6 +3,8 @@
 #include "imgui_impl_win32.h"
 #include "MenuScreen.h"
 #include "HierarchyScreen.h"
+#include "SceneControlsScreen.h"
+#include "InspectorScreen.h"
 
 UIManager* UIManager::sharedInstance = NULL;
 
@@ -60,6 +62,14 @@ UIManager::UIManager(HWND windowHandle)
 	HierarchyScreen* hierarchyScreen = new HierarchyScreen();
 	this->uiTable[uiNames.HIERARCHY_SCREEN] = hierarchyScreen;
 	this->uiList.push_back(hierarchyScreen);
+
+	SceneControlsScreen* sceneControlsScreen = new SceneControlsScreen();
+	this->uiTable[uiNames.SCENECONTROLS_SCREEN] = sceneControlsScreen;
+	this->uiList.push_back(sceneControlsScreen);
+
+	InspectorScreen* inspectorScreen = new InspectorScreen();
+	this->uiTable[uiNames.INSPECTOR_SCREEN] = inspectorScreen;
+	this->uiList.push_back(inspectorScreen);
 }
 
 UIManager::~UIManager()

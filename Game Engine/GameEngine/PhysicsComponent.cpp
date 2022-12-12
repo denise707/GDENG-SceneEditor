@@ -27,7 +27,7 @@ PhysicsComponent::PhysicsComponent(String name, AGameObject* owner, BodyType bod
 		
 	transform = rigidBody->getTransform();
 	float matrix[16];
-	transform.getOpenGLMatrix(matrix);
+	//transform.getOpenGLMatrix(matrix);
 }
 
 PhysicsComponent::~PhysicsComponent()

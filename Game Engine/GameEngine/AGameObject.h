@@ -62,6 +62,8 @@ public:
 	bool override = false;
 	void setLocalMatrix(float matrix[16]);
 
+	bool isSelected =false;
+
 protected:
 	//Name
 	string name;

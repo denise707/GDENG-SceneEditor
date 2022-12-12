@@ -11,6 +11,7 @@ private:
 	void* shader_byte_code;
 	size_t size_shader;
 	vector<AGameObject*> objList;
+
 public:
 	static GameObjectManager* get();
 public:
@@ -22,5 +23,9 @@ public:
 	void createSphere();
 	vector<AGameObject*> getAllObjects();
 	void createObjectFromFile(string name, string type, Vector3D position, Vector3D rotation, Vector3D scale);
+
+	void selectObject(AGameObject* obj);
+	
+	AGameObject* selectedObject = nullptr;
 };
 

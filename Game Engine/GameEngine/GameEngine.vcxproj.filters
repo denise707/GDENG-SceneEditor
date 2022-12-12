@@ -82,6 +82,9 @@
     <Filter Include="GameEngine\GraphicsEngine\GameObjectManager\Primitives">
       <UniqueIdentifier>{9278982d-363b-4b64-89df-e115062127b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Backend">
+      <UniqueIdentifier>{487e62ec-199e-45c8-9131-4443e84704e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppWindow.cpp">
@@ -215,6 +218,15 @@
     </ClCompile>
     <ClCompile Include="Sphere.cpp">
       <Filter>GameEngine\GraphicsEngine\GameObjectManager\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectorScreen.cpp">
+      <Filter>GameEngine\UISystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneControlsScreen.cpp">
+      <Filter>GameEngine\UISystem</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineBackend.cpp">
+      <Filter>GameEngine\Backend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -376,6 +388,15 @@
     </ClInclude>
     <ClInclude Include="Sphere.h">
       <Filter>GameEngine\GraphicsEngine\GameObjectManager\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorScreen.h">
+      <Filter>GameEngine\UISystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneControlsScreen.h">
+      <Filter>GameEngine\UISystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineBackend.h">
+      <Filter>GameEngine\Backend</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

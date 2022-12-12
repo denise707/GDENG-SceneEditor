@@ -8,6 +8,8 @@
 #include "PhysicsComponent.h"
 #include "Plane.h"
 #include "Sphere.h"
+#include "Mesh.h"
+#include "MeshObject.h"
 
 GameObjectManager::GameObjectManager()
 {
@@ -119,6 +121,18 @@ void GameObjectManager::createObjectFromFile(string name, string type, Vector3D 
 	if (type == "Cube") {
 		createCube(name, position, rotation, scale);
 	}
+}
+
+void GameObjectManager::selectObject(AGameObject* obj)
+{
+	if (this->selectedObject != nullptr)
+	{
+		//	RESET PREV SELECTED OBJECT
+		obj->isSelected = false;
+	}
+
+	obj->isSelected = true;
+	this->selectedObject = obj;
 }
 
 void GameObjectManager::drawObjects(int width, int height, VertexShader* vertex_shader, PixelShader* pixel_shader)

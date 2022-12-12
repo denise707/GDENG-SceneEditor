@@ -154,6 +154,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="EngineBackend.cpp" />
+    <ClCompile Include="InspectorScreen.cpp" />
+    <ClCompile Include="SceneControlsScreen.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="TexturedVertexBuffer.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
@@ -200,6 +203,9 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="EngineBackend.h" />
+    <ClInclude Include="InspectorScreen.h" />
+    <ClInclude Include="SceneControlsScreen.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="TexturedVertexBuffer.h" />
     <ClInclude Include="DeviceContext.h" />
