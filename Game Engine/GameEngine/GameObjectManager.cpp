@@ -9,7 +9,6 @@
 #include "Plane.h"
 #include "Sphere.h"
 #include "Mesh.h"
-#include "MeshObject.h"
 
 GameObjectManager::GameObjectManager()
 {
