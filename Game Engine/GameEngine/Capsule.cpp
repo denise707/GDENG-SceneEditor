@@ -1,17 +1,11 @@
-#include "Sphere.h"
+#include "Capsule.h"
 #include <iostream>
 #include "DeviceContext.h"
 #include "EngineTime.h"
 #include "GraphicsEngine.h"
 #include "SceneCameraHandler.h"
 
-#define PI 3.14159265359
-
-float map(int value, int minA, int maxA, float minB, float maxB) {
-	return (maxB - minB) * (value - minA) / (maxA - minA) + minB;
-}
-
-Sphere::Sphere(string name, void* shaderByteCode, size_t sizeShader) :AGameObject(name)
+Capsule::Capsule(string name, void* shaderByteCode, size_t sizeShader) :AGameObject(name)
 {
 	//Create buffers for drawing. Vertex data that needs to be drawn are temporarily placed here.
 	Vertex vertex_list[] =
@@ -532,6 +526,8 @@ Sphere::Sphere(string name, void* shaderByteCode, size_t sizeShader) :AGameObjec
 {Vector3D(-0.3414,0.6631,0.6649), Vector3D(0,1,0), Vector3D(0,1,1)},
 {Vector3D(-0.1767,0.6945,0.6963), Vector3D(0,0,1),  Vector3D(1,0,0)}
 	};
+	
+
 
 	this->vertexBuffer = GraphicsEngine::get()->createVertexBuffer();
 	this->vertexBuffer->load(vertex_list, sizeof(Vertex), ARRAYSIZE(vertex_list), shaderByteCode, sizeShader);
@@ -2855,16 +2851,16 @@ Sphere::Sphere(string name, void* shaderByteCode, size_t sizeShader) :AGameObjec
 
 	//Set animation speed
 	setAnimSpeed(4);
-	this->type = "Sphere";
+	this->type = "Cube";
 }
 
-Sphere::~Sphere()
+Capsule::~Capsule()
 {
 	this->vertexBuffer->release();
 	this->indexBuffer->release();
 }
 
-void Sphere::update(float delta_time)
+void Capsule::update(float delta_time)
 {
 	//For animation
 	/*float newRotX = getLocalRotation().m_x + (delta_time * speed);
@@ -2877,7 +2873,7 @@ void Sphere::update(float delta_time)
 
 }
 
-void Sphere::draw(int width, int height, VertexShader* vertex_shader, PixelShader* pixel_shader)
+void Capsule::draw(int width, int height, VertexShader* vertex_shader, PixelShader* pixel_shader)
 {
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
 	DeviceContext* deviceContext = graphEngine->getImmediateDeviceContext();
@@ -2938,18 +2934,15 @@ void Sphere::draw(int width, int height, VertexShader* vertex_shader, PixelShade
 	deviceContext->setIndexBuffer(this->indexBuffer);
 	deviceContext->setVertexBuffer(this->vertexBuffer);
 
-	deviceContext->drawTriangleStrip(vertex_count, start_vertex);
-	//deviceContext->drawIndexedTriangleList(this->indexBuffer->getSizeIndexList(), 0, 0);
+	deviceContext->drawIndexedTriangleList(this->indexBuffer->getSizeIndexList(), 0, 0);
 }
 
-void Sphere::setAnimSpeed(float speed)
+void Capsule::setAnimSpeed(float speed)
 {
 	this->speed = speed;
 }
 
-void Sphere::setRigidBodyEnabled(bool isEnabled)
+void Capsule::setRigidBodyEnabled(bool isEnabled)
 {
 	this->rigidBodyEnabled = isEnabled;
 }
-
-
