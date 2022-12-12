@@ -4,9 +4,12 @@
 #include "EngineTime.h"
 #include "GraphicsEngine.h"
 #include "SceneCameraHandler.h"
+#include "Matrix4x4.h"
+#include "EngineBackend.h"
 
 Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) :AGameObject(name)
 {
+	this->localMatrix.setIdentity();
 	//Create buffers for drawing. Vertex data that needs to be drawn are temporarily placed here.
 	Vertex vertex_list[] =
 	{
@@ -103,7 +106,7 @@ void Cube::draw(int width, int height, VertexShader* vertex_shader, PixelShader*
 	}
 
 	//For objects without physics
-	else {
+	if (!rigidBodyEnabled  || EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::EDITOR){
 		Matrix4x4 world_cam;
 		world_cam.setIdentity();
 

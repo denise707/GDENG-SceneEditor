@@ -53,7 +53,7 @@ void MenuScreen::drawUI()
 
 void MenuScreen::saveScene()
 {
-	String fileDir = "D:\\Academics\\Study References\\DLSU 4th Year - Term 1\\GDENG2\\Final Exam\\Game Engine\\SavedFiles\\" + to_string(1) + ".json";
+	String fileDir = "C:\\Users\\Setiel Olivarez\\Desktop\\School\\GDENG2\\Project\\GDENG-SceneEditor\\Game Engine\\SavedFiles\\" + to_string(1) + ".json";
 
 	FileWriter  sceneFile;
 	sceneFile.open(fileDir, std::ios::out);

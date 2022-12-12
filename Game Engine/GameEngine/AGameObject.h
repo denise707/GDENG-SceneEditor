@@ -5,6 +5,7 @@
 #include "ConstantBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
+#include "AComponent.h"
 #include <vector>
 
 using namespace std;
@@ -63,6 +64,8 @@ public:
 	void setLocalMatrix(float matrix[16]);
 
 	bool isSelected =false;
+
+	AComponent* physicsComp = nullptr;
 
 protected:
 	//Name

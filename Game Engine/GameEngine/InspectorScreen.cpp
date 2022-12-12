@@ -2,6 +2,7 @@
 #include "imgui.h"
 #include "UIManager.h"
 #include "GameObjectManager.h"
+#include "PhysicsComponent.h"
 #include <iostream>
 
 bool InspectorScreen::isOpen = false;
@@ -36,15 +37,26 @@ void InspectorScreen::drawUI()
             ImGui::Spacing();
             ImGui::Text("Object Properties: ");
 
-            if (ImGui::InputFloat3("Position", this->posDisp, "% .3f"))
+            AGameObject* obj = GameObjectManager::get()->selectedObject;
+            Vector3D v;
+            v = obj->getLocalPosition();
+            posDisp[0] = v.m_x; posDisp[1] = v.m_y; posDisp[2] = v.m_z;
+
+            v = obj->getLocalRotation();
+            rotDisp[0] = v.m_x; rotDisp[1] = v.m_y; rotDisp[2] = v.m_z;
+
+            v = obj->getLocalScale();
+            scaleDisp[0] = v.m_x; scaleDisp[1] = v.m_y; scaleDisp[2] = v.m_z;
+
+            if (ImGui::InputFloat3("Position", this->posDisp, "% .2f"))
             { 
                 this->updateTransform(); 
             }
-            if (ImGui::InputFloat3("Rotation", this->rotDisp, "% .3f"))
+            if (ImGui::InputFloat3("Rotation", this->rotDisp, "% .2f"))
             { 
                 this->updateTransform(); 
             }
-            if (ImGui::InputFloat3("Scale", this->scaleDisp, "% .3f"))
+            if (ImGui::InputFloat3("Scale", this->scaleDisp, "% .2f"))
             { 
                 this->updateTransform();
             }
@@ -60,7 +72,16 @@ void InspectorScreen::drawUI()
 void InspectorScreen::updateTransform()
 {
 
-    GameObjectManager::get()->selectedObject->setPosition(this->posDisp[0], this->posDisp[1], this->posDisp[2]);
-    GameObjectManager::get()->selectedObject->setRotation(this->rotDisp[0], this->rotDisp[1], this->rotDisp[2]);
-    GameObjectManager::get()->selectedObject->setScale(this->scaleDisp[0], this->scaleDisp[1], this->scaleDisp[2]);
+ 
+    AGameObject* obj = GameObjectManager::get()->selectedObject;
+    obj->setPosition(this->posDisp[0], this->posDisp[1], this->posDisp[2]);
+    obj->setRotation(this->rotDisp[0], this->rotDisp[1], this->rotDisp[2]);
+    obj->setScale(this->scaleDisp[0], this->scaleDisp[1], this->scaleDisp[2]);
+
+    //if (obj->physicsComp)
+    //{
+    //    //((PhysicsComponent*)obj->physicsComp)->updateRigidBody();
+    //}
+
+
 }
