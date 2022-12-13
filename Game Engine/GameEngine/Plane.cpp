@@ -10,16 +10,16 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) :AGameObject(
 	Vertex vertex_list[] =
 	{
 		//FRONT FACE
-		{Vector3D(-0.5f,-0.5f,-0.5f),	Vector3D(1,1,1), Vector3D(0.2f,0,0) },
-		{Vector3D(-0.5f,0.5f,-0.5f),    Vector3D(1,1,1), Vector3D(0.2f,0.2f,0) },
-		{ Vector3D(0.5f,0.5f,-0.5f),     Vector3D(1,1,1),  Vector3D(0.2f,0.2f,0) },
-		{ Vector3D(0.5f,-0.5f,-0.5f),     Vector3D(1,1,1), Vector3D(0.2f,0,0) },
+		{Vector3D(2.5f,-0.025f,-2.5f),	Vector3D(1,1,1), Vector3D(0.2f,0,0) },
+		{Vector3D(-2.5f,0.025f,-2.5f),    Vector3D(1,1,1), Vector3D(0.2f,0.2f,0) },
+		{ Vector3D(2.5f,0.025f,-2.5f),     Vector3D(1,1,1),  Vector3D(0.2f,0.2f,0) },
+		{ Vector3D(2.5f,-0.25f,-2.5f),     Vector3D(1,1,1), Vector3D(0.2f,0,0) },
 
 		//BACK FACE
-		{Vector3D(0.5f,-0.5f,0.5f),	Vector3D(1,1,1), Vector3D(0,0.2f,0) },
-		{Vector3D(0.5f,0.5f,0.5f),    Vector3D(1,1,1), Vector3D(0,0.2f,0.2f) },
-		{ Vector3D(-0.5f,0.5f,0.5f),     Vector3D(1,1,1),  Vector3D(0,0.2f,0.2f) },
-		{ Vector3D(-0.5f,-0.5f,0.5f),     Vector3D(1,1,1), Vector3D(0,0.2f,0) }
+		{Vector3D(2.5f,-0.025f,2.5f),	Vector3D(1,1,1), Vector3D(0,0.2f,0) },
+		{Vector3D(2.5f,0.025f,2.5f),    Vector3D(1,1,1), Vector3D(0,0.2f,0.2f) },
+		{ Vector3D(-2.5f,0.025f,2.5f),     Vector3D(1,1,1),  Vector3D(0,0.2f,0.2f) },
+		{ Vector3D(-2.5f,-0.025f,2.5f),     Vector3D(1,1,1), Vector3D(0,0.2f,0) }
 	};
 
 	this->vertexBuffer = GraphicsEngine::get()->createVertexBuffer();
@@ -56,7 +56,6 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) :AGameObject(
 	this->constantBuffer = GraphicsEngine::get()->createConstantBuffer();
 	this->constantBuffer->load(&cbData, sizeof(CBData));
 
-	setScale(Vector3D(20, 0.1f, 20));
 	this->type = "Plane";
 }
 
@@ -79,38 +78,44 @@ void Plane::draw(int width, int height, VertexShader* vertex_shader, PixelShader
 	CBData cbData = {};
 
 	cbData.time = deltaTime;
-	
+
 	//Add object transformation
 	Matrix4x4 temp;
 
+	//Save this
 	cbData.worldMatrix.setIdentity();
+	//Save this
 
-	cbData.worldMatrix = this->localMatrix;
+	//For objects with physics
+	if (rigidBodyEnabled) {
+		cbData.worldMatrix = this->localMatrix;
+	}
 
+	//For objects without physics
+	else {
+		Matrix4x4 world_cam;
+		world_cam.setIdentity();
 
-	/*Matrix4x4 world_cam;
-	world_cam.setIdentity();
+		temp.setIdentity();
+		temp.setScale(getLocalScale());
+		cbData.worldMatrix *= temp;
 
-	temp.setIdentity();
-	temp.setScale(getLocalScale());
-	cbData.worldMatrix *= temp;
+		temp.setIdentity();
+		temp.setRotationX(getLocalRotation().m_x);
+		cbData.worldMatrix *= temp;
 
-	temp.setIdentity();
-	temp.setRotationX(getLocalRotation().m_x);
-	cbData.worldMatrix *= temp;
+		temp.setIdentity();
+		temp.setRotationY(getLocalRotation().m_y);
+		cbData.worldMatrix *= temp;
 
-	temp.setIdentity();
-	temp.setRotationY(getLocalRotation().m_y);
-	cbData.worldMatrix *= temp;
+		temp.setIdentity();
+		temp.setRotationZ(getLocalRotation().m_z);
+		cbData.worldMatrix *= temp;
 
-	temp.setIdentity();
-	temp.setRotationZ(getLocalRotation().m_z);
-	cbData.worldMatrix *= temp;
-
-	temp.setIdentity();
-	temp.setTranslation(getLocalPosition());
-	cbData.worldMatrix *= temp;*/
-
+		temp.setIdentity();
+		temp.setTranslation(getLocalPosition());
+		cbData.worldMatrix *= temp;
+	}
 
 	//Add camera transformation
 	Matrix4x4 cameraMatrix = SceneCameraHandler::getInstance()->getSceneCameraViewMatrix();

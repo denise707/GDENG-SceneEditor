@@ -2852,7 +2852,7 @@ Sphere::Sphere(string name, void* shaderByteCode, size_t sizeShader) :AGameObjec
 
 	//Set animation speed
 	setAnimSpeed(4);
-	this->type = "Cube";
+	this->type = "Sphere";
 }
 
 Sphere::~Sphere()

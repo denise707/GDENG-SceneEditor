@@ -9,7 +9,7 @@
 #include "Plane.h"
 #include "Sphere.h"
 #include "Mesh.h"
-#include "MeshObject.h"
+#include "Capsule.h"
 
 GameObjectManager::GameObjectManager()
 {
@@ -35,7 +35,7 @@ void GameObjectManager::createCube()
 
 	//Create Primitive
 	Cube* cube = new Cube("Cube", shader_byte_code, size_shader);
-	cube->setRigidBodyEnabled(true);
+	//cube->setRigidBodyEnabled(true);
 	objList.push_back(cube);
 	PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", cube, BodyType::DYNAMIC, 50);
 
@@ -101,7 +101,26 @@ void GameObjectManager::createSphere()
 	Sphere* sphere = new Sphere("Sphere", shader_byte_code, size_shader);
 	//plane->setRigidBodyEnabled(true);
 	objList.push_back(sphere);
-	//PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", plane, BodyType::STATIC, 10);
+	PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", sphere, BodyType::DYNAMIC, 50);
+
+	//Release Compiled Shader
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	//Pixel Shader
+	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
+}
+
+void GameObjectManager::createCapsule()
+{
+	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+
+	//Create Primitive
+	Capsule* capsule = new Capsule("Capsule", shader_byte_code, size_shader);
+	//cube->setRigidBodyEnabled(true);
+	objList.push_back(capsule);
+	PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", capsule, BodyType::DYNAMIC, 50);
 
 	//Release Compiled Shader
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -147,3 +166,11 @@ GameObjectManager* GameObjectManager::get()
 	static GameObjectManager gOManager;
 	return &gOManager;
 }
+
+void GameObjectManager::EnablePhysics(bool isEnabled)
+{
+	for (int i = 0; i < objList.size(); i++) {
+		objList[i]->rigidBodyEnabled = isEnabled;
+	}
+}
+

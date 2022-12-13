@@ -21,11 +21,14 @@ public:
 	void createCube(string name, Vector3D position, Vector3D rotation, Vector3D scale);
 	void createPlane();
 	void createSphere();
+	void createCapsule();
 	vector<AGameObject*> getAllObjects();
 	void createObjectFromFile(string name, string type, Vector3D position, Vector3D rotation, Vector3D scale);
+	void EnablePhysics(bool isEnabled);
 
 	void selectObject(AGameObject* obj);
 	
 	AGameObject* selectedObject = nullptr;
 };
+
 
