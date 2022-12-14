@@ -4,6 +4,8 @@
 #include "GameObjectManager.h"
 #include <iostream>
 #include "PhysicsComponent.h"
+#include "BaseComponentSystem.h"
+#include "PhysicsSystem.h"
 
 bool InspectorScreen::isOpen = false;
 
@@ -20,7 +22,7 @@ InspectorScreen::~InspectorScreen()
 void InspectorScreen::drawUI()
 {
     string currGO = {};
-    bool currGOPhys = false;
+    bool currGOPhys;
 
     if (isOpen)
     {
@@ -34,6 +36,7 @@ void InspectorScreen::drawUI()
         if (GameObjectManager::get()->selectedObject)
         {
             currGO = GameObjectManager::get()->selectedObject->getName();
+            currGOPhys = GameObjectManager::get()->selectedObject->physicsEnabled;
             ImGui::Text("Name: "); ImGui::SameLine(); ImGui::Text(currGO.c_str());
             ImGui::Spacing();
             ImGui::Text("Object Properties: ");
@@ -75,8 +78,12 @@ void InspectorScreen::updateTransform()
 void InspectorScreen::updatePhysicsComponent(bool attach) {
     if (attach) {
         PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", GameObjectManager::get()->selectedObject, BodyType::DYNAMIC, 50);
+        GameObjectManager::get()->selectedObject->physicsComponent = physicsComponent;
+        GameObjectManager::get()->selectedObject->physicsEnabled = true;
     }
     else {
-
+        BaseComponentSystem::getInstance()->getPhysicsSystem()->unregisterComponent(GameObjectManager::get()->selectedObject->physicsComponent);
+        GameObjectManager::get()->selectedObject->physicsComponent = NULL;
+        GameObjectManager::get()->selectedObject->physicsEnabled = false;
     }
 }
