@@ -41,6 +41,9 @@ void InspectorScreen::drawUI()
             ImGui::Spacing();
             ImGui::Text("Object Properties: ");
 
+            if (ImGui::Checkbox("Active", &(GameObjectManager::get()->selectedObject->isActive))) {
+
+            }
             if (ImGui::InputFloat3("Position", this->posDisp, "% .3f"))
             { 
                 this->updateTransform(); 

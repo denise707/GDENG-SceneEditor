@@ -2,6 +2,7 @@
 #include "PhysicsComponent.h"
 #include <iostream>
 #include "EngineTime.h"
+#include "AGameObject.h"
 
 PhysicsSystem::PhysicsSystem()
 {
@@ -78,7 +79,8 @@ void PhysicsSystem::updateAllComponents()
 		this->physicsWorld->update(EngineTime::getDeltaTime()); 
 
 		for (int i = 0; i < this->componentList.size(); i++) {
-			this->componentList[i]->perform(EngineTime::getDeltaTime());
+			if(this->componentList[i]->getOwner()->isActive)
+				this->componentList[i]->perform(EngineTime::getDeltaTime());
 		}
 	}
 }
