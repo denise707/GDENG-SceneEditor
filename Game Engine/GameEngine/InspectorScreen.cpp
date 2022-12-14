@@ -3,6 +3,7 @@
 #include "UIManager.h"
 #include "GameObjectManager.h"
 #include <iostream>
+#include "PhysicsComponent.h"
 
 bool InspectorScreen::isOpen = false;
 
@@ -19,6 +20,7 @@ InspectorScreen::~InspectorScreen()
 void InspectorScreen::drawUI()
 {
     string currGO = {};
+    bool currGOPhys = false;
 
     if (isOpen)
     {
@@ -48,8 +50,8 @@ void InspectorScreen::drawUI()
             { 
                 this->updateTransform();
             }
-            if (ImGui::Checkbox("Attach Physics Component", &isOpen)) {
-
+            if (ImGui::Checkbox("Attach Physics Component", &currGOPhys)) {
+                this->updatePhysicsComponent(currGOPhys);
             }
             if (ImGui::Checkbox("Attach Texture Component", &isOpen)) {
 
@@ -58,9 +60,6 @@ void InspectorScreen::drawUI()
 
             }
         }
-     
-
-
         ImGui::End();
     }
 }
@@ -71,4 +70,13 @@ void InspectorScreen::updateTransform()
     GameObjectManager::get()->selectedObject->setPosition(this->posDisp[0], this->posDisp[1], this->posDisp[2]);
     GameObjectManager::get()->selectedObject->setRotation(this->rotDisp[0], this->rotDisp[1], this->rotDisp[2]);
     GameObjectManager::get()->selectedObject->setScale(this->scaleDisp[0], this->scaleDisp[1], this->scaleDisp[2]);
+}
+
+void InspectorScreen::updatePhysicsComponent(bool attach) {
+    if (attach) {
+        PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", GameObjectManager::get()->selectedObject, BodyType::DYNAMIC, 50);
+    }
+    else {
+
+    }
 }
