@@ -178,13 +178,13 @@ void AGameObject::resetComponents()
 {
 	if (this->physicsEnabled)
 	{
-		std::cout << " resetPhysics" << this->name<<" \n";
+		std::cout << " resetPhysics" << this->name << " \n";
 
-		BaseComponentSystem::getInstance()->getPhysicsSystem()->unregisterComponent(GameObjectManager::get()->selectedObject->physicsComponent);
-		GameObjectManager::get()->selectedObject->physicsComponent = NULL;
+		BaseComponentSystem::getInstance()->getPhysicsSystem()->unregisterComponent(this->physicsComponent);
+		this->physicsComponent = NULL;
 
-		PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", GameObjectManager::get()->selectedObject, BodyType::DYNAMIC, 50);
-		GameObjectManager::get()->selectedObject->physicsComponent = physicsComponent;
+		PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", this, BodyType::DYNAMIC, 50);
+		this->physicsComponent = physicsComponent;
 	}
 }
 void AGameObject::awake()
