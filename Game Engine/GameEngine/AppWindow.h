@@ -54,5 +54,4 @@ private:
 	int height = 0;;
 	void* shader_byte_code;
 	size_t size_shader;
-	vector<MeshPtr> mesh_list;
 };
