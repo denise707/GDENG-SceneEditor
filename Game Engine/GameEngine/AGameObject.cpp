@@ -134,6 +134,16 @@ Matrix4x4 AGameObject::getLocalMatrix()
 	return this->localMatrix;
 }
 
+vector<AGameObject*> AGameObject::getChildList()
+{
+	return childList;
+}
+
+void AGameObject::addChild(AGameObject* child)
+{
+	childList.push_back(child);
+}
+
 void AGameObject::saveEditState()
 {
 	if (this->lastEditState == nullptr) 

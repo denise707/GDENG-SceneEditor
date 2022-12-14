@@ -2892,28 +2892,84 @@ void Sphere::draw(int width, int height, VertexShader* vertex_shader, PixelShade
 
 	//For objects without physics
 	if (!this->simulatePhysics) {
-		Matrix4x4 world_cam;
-		world_cam.setIdentity();
+		if (parent == nullptr) {
+			Matrix4x4 world_cam;
+			world_cam.setIdentity();
 
-		temp.setIdentity();
-		temp.setScale(getLocalScale());
-		cbData.worldMatrix *= temp;
+			temp.setIdentity();
+			temp.setScale(getLocalScale());
+			cbData.worldMatrix *= temp;
 
-		temp.setIdentity();
-		temp.setRotationX(getLocalRotation().m_x);
-		cbData.worldMatrix *= temp;
+			temp.setIdentity();
+			temp.setRotationX(getLocalRotation().m_x);
+			cbData.worldMatrix *= temp;
 
-		temp.setIdentity();
-		temp.setRotationY(getLocalRotation().m_y);
-		cbData.worldMatrix *= temp;
+			temp.setIdentity();
+			temp.setRotationY(getLocalRotation().m_y);
+			cbData.worldMatrix *= temp;
 
-		temp.setIdentity();
-		temp.setRotationZ(getLocalRotation().m_z);
-		cbData.worldMatrix *= temp;
+			temp.setIdentity();
+			temp.setRotationZ(getLocalRotation().m_z);
+			cbData.worldMatrix *= temp;
 
-		temp.setIdentity();
-		temp.setTranslation(getLocalPosition());
-		cbData.worldMatrix *= temp;
+			temp.setIdentity();
+			temp.setTranslation(getLocalPosition());
+			cbData.worldMatrix *= temp;
+		}
+
+		else if (parent != nullptr)
+		{
+			Matrix4x4 temp2;
+			temp2.setIdentity();
+
+			Matrix4x4 world_cam;
+			world_cam.setIdentity();
+
+			temp.setIdentity();
+			temp.setScale(parent->getLocalScale());
+			cbData.worldMatrix *= temp;
+
+
+			temp.setIdentity();
+			temp.setRotationX(parent->getLocalRotation().m_x);
+			cbData.worldMatrix *= temp;
+
+			temp.setIdentity();
+			temp.setRotationY(parent->getLocalRotation().m_y);
+			cbData.worldMatrix *= temp;
+
+			temp.setIdentity();
+			temp.setRotationZ(parent->getLocalRotation().m_z);
+			cbData.worldMatrix *= temp;
+
+			temp.setIdentity();
+			temp.setTranslation(parent->getLocalPosition());
+			cbData.worldMatrix *= temp;
+
+			temp.setIdentity();
+			temp.setScale(getLocalScale());
+			temp2 *= temp;
+
+			temp.setIdentity();
+			temp.setRotationX(getLocalRotation().m_x);
+			temp2 *= temp;
+
+			temp.setIdentity();
+			temp.setRotationY(getLocalRotation().m_y);
+			temp2 *= temp;
+
+			temp.setIdentity();
+			temp.setRotationZ(getLocalRotation().m_z);
+			temp2 *= temp;
+
+
+			temp.setIdentity();
+			temp.setTranslation(getLocalPosition());
+			temp2 *= temp;
+
+
+			cbData.worldMatrix *= temp2;
+		}
 	}
 	else
 	{
