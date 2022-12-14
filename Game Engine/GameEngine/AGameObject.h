@@ -65,7 +65,7 @@ public:
 	void setLocalMatrix(float matrix[16]);
 
 	bool isSelected =false;
-
+	bool isActive = true;
 public:
 	bool physicsEnabled = false;
 	PhysicsComponent* physicsComponent;

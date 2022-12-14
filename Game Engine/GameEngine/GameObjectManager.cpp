@@ -168,7 +168,8 @@ void GameObjectManager::selectObject(AGameObject* obj)
 void GameObjectManager::drawObjects(int width, int height, VertexShader* vertex_shader, PixelShader* pixel_shader)
 {
 	for (int i = 0; i < objList.size(); i++) {
-		objList[i]->draw(width, height, vertex_shader, pixel_shader);
+		if(objList[i]->isActive)
+			objList[i]->draw(width, height, vertex_shader, pixel_shader);
 	}
 }
 
