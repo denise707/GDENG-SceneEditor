@@ -8,6 +8,7 @@
 #include "PhysicsSystem.h"
 
 bool InspectorScreen::isOpen = true;
+bool InspectorScreen::openFilenameGetter = false;
 
 InspectorScreen::InspectorScreen() : AUIScreen("InspectorScreen")
 {
@@ -81,6 +82,29 @@ void InspectorScreen::drawUI()
 
             }
 
+        }
+        ImGui::End();
+    }
+
+    enterFilename();
+}
+
+void InspectorScreen::enterFilename() {
+    if (openFilenameGetter) {
+        ImGui::SetNextWindowSize(ImVec2(250, 200));
+        ImGui::Begin("Models");
+        ImGui::Spacing();
+        if (ImGui::Button("Armadillo")) {
+            modelFilename = "armadillo"; GameObjectManager::get()->createMesh(modelFilename);
+        }
+        if (ImGui::Button("Bunny")) {
+            modelFilename = "bunny"; GameObjectManager::get()->createMesh(modelFilename);
+        }
+        if (ImGui::Button("Lucy")) {
+            modelFilename = "statue"; GameObjectManager::get()->createMesh(modelFilename);
+        }
+        if (ImGui::Button("Teapot")) {
+            modelFilename = "teapot"; GameObjectManager::get()->createMesh(modelFilename);
         }
         ImGui::End();
     }

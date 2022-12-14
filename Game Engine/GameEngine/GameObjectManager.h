@@ -51,7 +51,7 @@ public:
 	void createPlane();
 	void createSphere();
 	void createCapsule();
-	void createMesh();
+	void createMesh(string name);
 
 	vector<AGameObject*> getAllObjects();
 	void createObjectFromFile(string name, string type, Vector3D position, Vector3D rotation, Vector3D scale);
@@ -64,6 +64,8 @@ public:
 	void saveEditStates();
 	void restoreEditStates();
 	void updateAllObjects();
+
+	int index = 0;
 };
 
 

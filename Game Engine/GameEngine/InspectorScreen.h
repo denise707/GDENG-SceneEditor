@@ -10,7 +10,9 @@ class InspectorScreen : public AUIScreen
 
 public:
 	static bool isOpen;
-
+	std::string modelFilename;
+	void enterFilename();
+	static bool openFilenameGetter;
 private:
 	float posDisp[3] = { 0.0f, 0.0f, 0.0f };
 	float rotDisp[3] = { 0.0f, 0.0f, 0.0f };
