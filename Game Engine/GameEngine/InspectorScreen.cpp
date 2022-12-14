@@ -48,7 +48,15 @@ void InspectorScreen::drawUI()
             { 
                 this->updateTransform();
             }
+            if (ImGui::Checkbox("Attach Physics Component", &isOpen)) {
 
+            }
+            if (ImGui::Checkbox("Attach Texture Component", &isOpen)) {
+
+            }
+            if (ImGui::Button("Delete Game Object")) {
+
+            }
         }
      
 

@@ -33,9 +33,11 @@ void MenuScreen::drawUI()
     {
         if (ImGui::BeginMenu("Tools"))
         {
-            if (ImGui::MenuItem("Create Physics Cube..")) { GameObjectManager::get()->createCube(); }
-            if (ImGui::MenuItem("Create Physics Plane..")) { GameObjectManager::get()->createPlane(); }
+            if (ImGui::MenuItem("Create Cube..")) { GameObjectManager::get()->createCube(); }
+            if (ImGui::MenuItem("Create Plane..")) { GameObjectManager::get()->createPlane(); }
 			if (ImGui::MenuItem("Create Sphere..")) { GameObjectManager::get()->createSphere(); }
+			if (ImGui::MenuItem("Create Capsule..")) { GameObjectManager::get()->createCapsule(); }
+			if (ImGui::MenuItem("Create Static Mesh..")) {  }
             if (ImGui::MenuItem("Save Scene..")) { saveScene(); }
 			if (ImGui::MenuItem("Load Scene..")) { loadScene(); }
             ImGui::EndMenu();
@@ -45,6 +47,7 @@ void MenuScreen::drawUI()
 			if (ImGui::MenuItem("Heirarchy")) { HierarchyScreen::isOpen = true; }
 			if (ImGui::MenuItem("Inspector")) { InspectorScreen::isOpen = true; }
 			if (ImGui::MenuItem("Scene Controls")) { SceneControlsScreen::isOpen = true; }
+			if (ImGui::MenuItem("Debugging Window")) { }
 			ImGui::EndMenu();
 		}
         ImGui::EndMainMenuBar();
