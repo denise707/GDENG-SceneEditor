@@ -38,7 +38,7 @@ void SceneControlsScreen::drawUI()
 
          // ENGINE STATES
         ImGui::Text("Engine State Controls");
-        if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::EDITOR || EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PAUSED)
+        if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::EDITOR)
         {
             label = "Play";
             const char* playerScene = label.data();
@@ -65,7 +65,7 @@ void SceneControlsScreen::drawUI()
 
                 }
             }
-            ImGui::SameLine;
+            ImGui::SameLine();
             label = "REDO";
             const char* redoState = label.data();
             if (ImGui::Button(redoState, ImVec2(50, 20)))
@@ -91,9 +91,28 @@ void SceneControlsScreen::drawUI()
             }
         }
 
+        if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PAUSED)
+        {
+            label = "Resume";
+            const char* resumeScene = label.data();
+            if (ImGui::Button(resumeScene, ImVec2(50, 20)))
+            {
+                EngineBackend::getInstance()->setMode(EngineBackend::PLAY);
+                cout << "Resume Scene\n";
+            }
+            ImGui::SameLine();
+            label = "Timestep";
+            const char* nextFrame = label.data();
+            if (ImGui::Button(nextFrame, ImVec2(50, 20)))
+            {
+                EngineBackend::getInstance()->startFrameStep();
+                cout << "Timestep\n";
+            }
+        }
+
         if(EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PAUSED || EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PLAY)
         {
-            ImGui::SameLine;
+            ImGui::SameLine();
 
             label = "Stop";
             const char* stopScene = label.data();

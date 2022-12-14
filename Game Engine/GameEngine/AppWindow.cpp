@@ -112,7 +112,7 @@ void AppWindow::onUpdate()
 		if (EngineBackend::getInstance()->insideFrameStep())
 		{
 			//UPDATE PHYSICS
-			//BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
+			BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
 
 			EngineBackend::getInstance()->endFrameStep();
 		}
