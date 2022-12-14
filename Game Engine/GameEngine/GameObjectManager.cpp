@@ -311,12 +311,29 @@ void GameObjectManager::restoreEditStates()
 	}
 }
 
-void GameObjectManager::updateAllObjects()
+void GameObjectManager::updateAllObjectState(EditorAction* action)
+{
+	AGameObject* object = this->getObjectWithName(action->getName());
+	if (object != nullptr) 
+	{
+		object->setPosition(action->getStorePos());
+		object->setRotation(action->getStoredRotation());
+		object->setScale(action->getStoredScale());
+		object->getLocalMatrix() = action->getStoredMatrix();
+	}
+}
+
+AGameObject* GameObjectManager::getObjectWithName(string name)
 {
 	for (int i = 0; i < this->objList.size(); i++)
 	{
-		
-		//this->objList[i]->restoreEditState();
+		if (objList[i]->getName() == name)
+		{
+			return objList[i];
+		}
 	}
+	
+	return  nullptr;
 }
+
 

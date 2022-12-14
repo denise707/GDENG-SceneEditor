@@ -63,7 +63,9 @@ public:
 	void updateTexture(bool isTextured);
 	void saveEditStates();
 	void restoreEditStates();
-	void updateAllObjects();
+	void updateAllObjectState(EditorAction* action);
+	AGameObject* getObjectWithName(string name);
+	void updateAllObjectState();
 
 	int index = 0;
 };

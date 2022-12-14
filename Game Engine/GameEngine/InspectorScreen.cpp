@@ -6,6 +6,7 @@
 #include "PhysicsComponent.h"
 #include "BaseComponentSystem.h"
 #include "PhysicsSystem.h"
+#include"ActionHistory.h"
 
 bool InspectorScreen::isOpen = true;
 bool InspectorScreen::openFilenameGetter = false;
@@ -113,9 +114,15 @@ void InspectorScreen::enterFilename() {
 void InspectorScreen::updateTransform()
 {
 
-    GameObjectManager::get()->selectedObject->setPosition(this->posDisp[0], this->posDisp[1], this->posDisp[2]);
-    GameObjectManager::get()->selectedObject->setRotation(this->rotDisp[0], this->rotDisp[1], this->rotDisp[2]);
-    GameObjectManager::get()->selectedObject->setScale(this->scaleDisp[0], this->scaleDisp[1], this->scaleDisp[2]);
+    if (GameObjectManager::get()->selectedObject)
+    {
+        // record every after update
+        ActionHistory::getInstance()->recordAction(GameObjectManager::get()->selectedObject);
+        GameObjectManager::get()->selectedObject->setPosition(this->posDisp[0], this->posDisp[1], this->posDisp[2]);
+        GameObjectManager::get()->selectedObject->setRotation(this->rotDisp[0], this->rotDisp[1], this->rotDisp[2]);
+        GameObjectManager::get()->selectedObject->setScale(this->scaleDisp[0], this->scaleDisp[1], this->scaleDisp[2]);
+    }
+
 }
 
 void InspectorScreen::updatePhysicsComponent(bool attach) {

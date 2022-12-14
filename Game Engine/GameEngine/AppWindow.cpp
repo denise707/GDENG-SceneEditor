@@ -9,7 +9,7 @@
 #include "BaseComponentSystem.h"
 #include "PhysicsSystem.h"
 #include "EngineBackend.h"
-
+#include "ActionHistory.h"
 #include "GameObjectManager.h"
 
 AppWindow::AppWindow()
@@ -71,6 +71,9 @@ void AppWindow::onCreate()
 
 	//Initialize Engine Backend
 	EngineBackend::getInstance()->initialize();
+
+	//Initialize ActionHistory
+	ActionHistory::getInstance()->initialize();
 }
 
 void AppWindow::onUpdate()

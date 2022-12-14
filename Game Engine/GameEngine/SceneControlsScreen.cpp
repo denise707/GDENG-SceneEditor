@@ -4,6 +4,10 @@
 #include "GameObjectManager.h"
 #include "EngineBackend.h"
 #include <iostream>
+#include "ActionHistory.h"
+#include "GameObjectManager.h"
+
+
 
 bool SceneControlsScreen::isOpen = true;
 
@@ -43,28 +47,37 @@ void SceneControlsScreen::drawUI()
                 EngineBackend::getInstance()->setMode(EngineBackend::PLAY);
                 cout << "Play Scene\n";
             }
+        }  
 
-            if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::EDITOR)
+        if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::EDITOR)
+        {
+            ImGui::Spacing();
+            // EDITOR STATES
+            ImGui::Text("Edtior State Controls");
+            label = "UNDO";
+            const char* undoState = label.data();
+            if (ImGui::Button(undoState, ImVec2(50, 20)))
             {
-                ImGui::Spacing();
-                // EDITOR STATES
-                ImGui::Text("Edtior State Controls");
-                label = "UNDO";
-                const char* undoState = label.data();
-                if (ImGui::Button(undoState, ImVec2(50, 20)))
+                if (ActionHistory::getInstance()->hasRemainingUndoActions()) 
                 {
-
+                    GameObjectManager::get()->updateAllObjectState(ActionHistory::getInstance()->undoAction());
                     cout << "Undo Scene\n";
-                }
-                ImGui::SameLine;
-                label = "REDO";
-                const char* redoState = label.data();
-                if (ImGui::Button(redoState, ImVec2(50, 20)))
-                {
-                    cout << "Redo Scene\n";
+
                 }
             }
-        }  
+            ImGui::SameLine;
+            label = "REDO";
+            const char* redoState = label.data();
+            if (ImGui::Button(redoState, ImVec2(50, 20)))
+            {
+                if (ActionHistory::getInstance()->hasRemainingRedoActions())
+                {
+                    GameObjectManager::get()->updateAllObjectState(ActionHistory::getInstance()->redoAction());
+                    cout << "Redo Scene\n";
+
+                }
+            }
+        }
         
         if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PLAY)
         {
