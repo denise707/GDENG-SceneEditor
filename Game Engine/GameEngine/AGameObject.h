@@ -61,7 +61,7 @@ public:
 	};
 
 	//Physics transformations
-	bool override = false;
+	bool simulatePhysics = false;
 	void setLocalMatrix(float matrix[16]);
 
 	bool isSelected =false;

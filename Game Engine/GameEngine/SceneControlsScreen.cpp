@@ -36,7 +36,7 @@ void SceneControlsScreen::drawUI()
         if (ImGui::Button(playerScene, ImVec2(50, 20)))
         {
             EngineBackend::getInstance()->setMode(EngineBackend::PLAY);
-            // play editor
+            cout << "Play Scene\n";
         }
 
         ImGui::SameLine();

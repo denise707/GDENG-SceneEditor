@@ -86,13 +86,9 @@ void Plane::draw(int width, int height, VertexShader* vertex_shader, PixelShader
 	cbData.worldMatrix.setIdentity();
 	//Save this
 
-	//For objects with physics
-	if (rigidBodyEnabled) {
-		cbData.worldMatrix = this->localMatrix;
-	}
-
 	//For objects without physics
-	else {
+	if (!this->simulatePhysics) 
+	{
 		Matrix4x4 world_cam;
 		world_cam.setIdentity();
 
@@ -115,6 +111,11 @@ void Plane::draw(int width, int height, VertexShader* vertex_shader, PixelShader
 		temp.setIdentity();
 		temp.setTranslation(getLocalPosition());
 		cbData.worldMatrix *= temp;
+	}
+	else
+	{
+		// simulate physics
+		cbData.worldMatrix = this->localMatrix;
 	}
 
 	//Add camera transformation

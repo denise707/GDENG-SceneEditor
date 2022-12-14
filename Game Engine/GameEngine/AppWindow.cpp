@@ -100,7 +100,7 @@ void AppWindow::onUpdate()
 	if (EngineBackend::getInstance()->getMode() == EngineBackend::EDITOR)
 	{
 		//UPDATE PHYSICS
-		BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
+		//BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
 	}
 	else if (EngineBackend::getInstance()->getMode() == EngineBackend::PLAY)
 	{

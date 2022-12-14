@@ -33,13 +33,26 @@ void InspectorScreen::drawUI()
         ImGui::Spacing();
         ImGui::Spacing();
 
-        if (GameObjectManager::get()->selectedObject)
-        {
+        if (AGameObject* selectedObj = GameObjectManager::get()->selectedObject)
+        {   
             currGO = GameObjectManager::get()->selectedObject->getName();
             currGOPhys = GameObjectManager::get()->selectedObject->physicsEnabled;
             ImGui::Text("Name: "); ImGui::SameLine(); ImGui::Text(currGO.c_str());
             ImGui::Spacing();
             ImGui::Text("Object Properties: ");
+
+            Vector3D v;
+            v = selectedObj->getLocalPosition();
+            posDisp[0] = v.m_x; posDisp[1] = v.m_y; posDisp[2] = v.m_z;
+
+            v = selectedObj->getLocalScale();
+            scaleDisp[0] = v.m_x; scaleDisp[1] = v.m_y; scaleDisp[2] = v.m_z;
+
+            v = selectedObj->getLocalRotation();
+            rotDisp[0] = v.m_x; rotDisp[1] = v.m_y; rotDisp[2] = v.m_z;
+
+
+
 
             if (ImGui::Checkbox("Active", &(GameObjectManager::get()->selectedObject->isActive))) {
 
@@ -65,6 +78,7 @@ void InspectorScreen::drawUI()
             if (ImGui::Button("Delete Game Object")) {
 
             }
+
         }
         ImGui::End();
     }

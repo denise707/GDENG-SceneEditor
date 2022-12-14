@@ -152,8 +152,10 @@
     <ClCompile Include="AUIScreen.cpp" />
     <ClCompile Include="BaseComponentSystem.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Capsule.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="DebugScreen.cpp" />
     <ClCompile Include="EngineBackend.cpp" />
     <ClCompile Include="InspectorScreen.cpp" />
     <ClCompile Include="SceneControlsScreen.cpp" />
@@ -201,8 +203,10 @@
     <ClInclude Include="AUIScreen.h" />
     <ClInclude Include="BaseComponentSystem.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Capsule.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="DebugScreen.h" />
     <ClInclude Include="EngineBackend.h" />
     <ClInclude Include="InspectorScreen.h" />
     <ClInclude Include="SceneControlsScreen.h" />

@@ -123,7 +123,7 @@ void AGameObject::setLocalMatrix(float matrix[16])
 	this->localMatrix *= transMatrix; 
 	this->localMatrix *= newMatrix; 
 
-	this->override = true;
+	this->simulatePhysics = true;
 }
 
 void AGameObject::awake()

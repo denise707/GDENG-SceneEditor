@@ -228,6 +228,10 @@
     <ClCompile Include="EngineBackend.cpp">
       <Filter>GameEngine\Backend</Filter>
     </ClCompile>
+    <ClCompile Include="DebugScreen.cpp" />
+    <ClCompile Include="Capsule.cpp">
+      <Filter>GameEngine\GraphicsEngine\GameObjectManager\Primitives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -397,6 +401,10 @@
     </ClInclude>
     <ClInclude Include="EngineBackend.h">
       <Filter>GameEngine\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugScreen.h" />
+    <ClInclude Include="Capsule.h">
+      <Filter>GameEngine\GraphicsEngine\GameObjectManager\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

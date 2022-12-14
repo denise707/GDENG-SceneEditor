@@ -90,23 +90,16 @@ void Cube::draw(int width, int height, VertexShader* vertex_shader, PixelShader*
 	DeviceContext* deviceContext = graphEngine->getImmediateDeviceContext();
 
 	CBData cbData = {};
-
 	cbData.time = deltaTime;
 
 	//Add object transformation
 	Matrix4x4 temp;
-
 	//Save this
 	cbData.worldMatrix.setIdentity();
-	//Save this
-
-	//For objects with physics
-	if (rigidBodyEnabled) {
-		cbData.worldMatrix = this->localMatrix;
-	}
 
 	//For objects without physics
-	if (!rigidBodyEnabled  || EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::EDITOR){
+	if (!this->simulatePhysics)
+	{
 		Matrix4x4 world_cam;
 		world_cam.setIdentity();
 
@@ -129,6 +122,11 @@ void Cube::draw(int width, int height, VertexShader* vertex_shader, PixelShader*
 		temp.setIdentity();
 		temp.setTranslation(getLocalPosition());
 		cbData.worldMatrix *= temp;
+	}
+	else
+	{
+		// simulate physics
+		cbData.worldMatrix = this->localMatrix;
 	}
 
 	//Add camera transformation
