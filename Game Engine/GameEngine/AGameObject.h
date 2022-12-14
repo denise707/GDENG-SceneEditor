@@ -41,6 +41,7 @@ public:
 	bool rigidBodyEnabled = false;
 
 	string getName();
+	void setName(string name);
 
 	struct Vertex
 	{
@@ -63,6 +64,9 @@ public:
 	void setLocalMatrix(float matrix[16]);
 
 	bool isSelected =false;
+
+public:
+	bool physicsEnabled = false;
 
 protected:
 	//Name
