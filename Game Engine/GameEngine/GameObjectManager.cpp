@@ -254,6 +254,7 @@ void GameObjectManager::selectObject(AGameObject* obj)
 void GameObjectManager::drawObjects(int width, int height, VertexShader* vertex_shader, PixelShader* pixel_shader)
 {
 	for (int i = 0; i < objList.size(); i++) {
+		updateTexture(objList[i]->isTextured);
 		if(objList[i]->isActive)
 			objList[i]->draw(width, height, vertex_shader, pixel_shader);
 	}
@@ -274,20 +275,20 @@ void GameObjectManager::EnablePhysics(bool isEnabled)
 
 void GameObjectManager::updateTexture(bool isTextured)
 {
-	//if (isTextured) {
-	//	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(textured_vs);
-	//	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(textured_ps);
+	if (isTextured) {
+		GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(textured_vs);
+		GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(textured_ps);
 
-	//	//Load Texture
-	//	ID3D11ShaderResourceView* texture;
-	//	bool ret = LoadTextureFromFile("..\\Assets\\Textures\\brick.png", &texture);
-	//	GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(texture);
-	//}
+		//Load Texture
+		ID3D11ShaderResourceView* texture;
+		bool ret = LoadTextureFromFile("..\\Assets\\Textures\\brick.png", &texture);
+		GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(texture);
+	}
 
-	//else {
-	//	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(default_vs);
-	//	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(default_ps);
-	//}
+	else {
+		GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(default_vs);
+		GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(default_ps);
+	}
 }
 void GameObjectManager::saveEditStates()
 {
@@ -314,6 +315,7 @@ void GameObjectManager::updateAllObjects()
 {
 	for (int i = 0; i < this->objList.size(); i++)
 	{
+		
 		//this->objList[i]->restoreEditState();
 	}
 }
