@@ -60,7 +60,7 @@ public:
 	void selectObject(AGameObject* obj);
 	
 	AGameObject* selectedObject = nullptr;
-	void updateTexture(bool isTextured);
+	void updateTexture(bool isTextured, string texture);
 	void saveEditStates();
 	void restoreEditStates();
 	void updateAllObjectState(EditorAction* action);
