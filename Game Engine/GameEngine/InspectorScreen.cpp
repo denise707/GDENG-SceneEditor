@@ -77,6 +77,10 @@ void InspectorScreen::drawUI()
             }
             if (ImGui::Checkbox("Attach Texture Component", &currGOTex)) {
                 this->updateTextureComponent(currGOTex);
+                GameObjectManager::get()->selectedObject->texture = " ";
+            }
+            if (ImGui::Button("Change Texture")) {
+                openTexnameGetter = true;
             }
             if (ImGui::Button("Delete Game Object")) {
 
@@ -87,6 +91,7 @@ void InspectorScreen::drawUI()
     }
 
     enterFilename();
+    enterTexName();
 }
 
 void InspectorScreen::enterFilename() {
@@ -105,6 +110,31 @@ void InspectorScreen::enterFilename() {
         }
         if (ImGui::Button("Teapot")) {
             modelFilename = "teapot"; GameObjectManager::get()->createMesh(modelFilename);
+        }
+        ImGui::End();
+    }
+}
+
+void InspectorScreen::enterTexName()
+{
+    if (openTexnameGetter) {
+        ImGui::SetNextWindowSize(ImVec2(250, 200));
+        ImGui::Begin("Textures");
+        ImGui::Spacing();
+        if (ImGui::Button("Brick")) {
+            GameObjectManager::get()->selectedObject->texture = "brick";
+        }
+        if (ImGui::Button("Sand")) {
+            GameObjectManager::get()->selectedObject->texture = "sand";
+        }
+        if (ImGui::Button("Wood")) {
+            GameObjectManager::get()->selectedObject->texture = "wood";
+        }
+        if (ImGui::Button("Wall")) {
+            GameObjectManager::get()->selectedObject->texture = "wall";
+        }
+        if (ImGui::Button("Sky")) {
+            GameObjectManager::get()->selectedObject->texture = "sky";
         }
         ImGui::End();
     }
