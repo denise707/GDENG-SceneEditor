@@ -17,5 +17,6 @@ private:
 	float scaleDisp[3] = { 1.0f, 1.0f, 1.0f };
 
 	void updateTransform();
+	void updatePhysicsComponent(bool attach);
 };
 

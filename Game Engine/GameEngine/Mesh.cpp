@@ -87,6 +87,8 @@ Mesh::Mesh(const wchar_t* full_path, bool isTextured) : Resource(full_path), AGa
 	cbData.time = 0;
 	this->constantBuffer = GraphicsEngine::get()->createConstantBuffer();
 	this->constantBuffer->load(&cbData, sizeof(CBData));
+
+	this->type = "Mesh";
 }
 
 Mesh::~Mesh()

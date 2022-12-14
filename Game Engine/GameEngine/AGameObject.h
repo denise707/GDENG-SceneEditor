@@ -65,6 +65,9 @@ public:
 
 	bool isSelected =false;
 
+public:
+	bool physicsEnabled = false;
+
 protected:
 	//Name
 	string name;
