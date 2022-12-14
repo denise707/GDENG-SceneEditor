@@ -87,6 +87,11 @@ string AGameObject::getName()
 	return this->name;
 }
 
+void AGameObject::setName(string name)
+{
+	this->name = name;
+}
+
 void AGameObject::setLocalMatrix(float matrix[16])
 {
 	Matrix4x4 mat;
@@ -125,5 +130,6 @@ void AGameObject::awake()
 {
 
 }
+
 
 

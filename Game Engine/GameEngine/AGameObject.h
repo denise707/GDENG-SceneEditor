@@ -41,6 +41,7 @@ public:
 	bool rigidBodyEnabled = false;
 
 	string getName();
+	void setName(string name);
 
 	struct Vertex
 	{
