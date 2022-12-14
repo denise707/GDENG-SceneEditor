@@ -44,7 +44,7 @@ void SceneControlsScreen::drawUI()
                 cout << "Play Scene\n";
             }
 
-            if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PAUSED)
+            if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::EDITOR)
             {
                 ImGui::Spacing();
                 // EDITOR STATES
