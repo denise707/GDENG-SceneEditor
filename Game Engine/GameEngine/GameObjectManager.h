@@ -61,6 +61,8 @@ public:
 	
 	AGameObject* selectedObject = nullptr;
 	void updateTexture(bool isTextured);
+	void saveEditStates();
+	void restoreEditStates();
 };
 
 

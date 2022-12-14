@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AComponent.cpp" />
+    <ClCompile Include="ActionHistory.cpp" />
     <ClCompile Include="AGameObject.cpp" />
     <ClCompile Include="AppWindow.cpp" />
     <ClCompile Include="AUIScreen.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="DebugScreen.cpp" />
+    <ClCompile Include="EditorAction.cpp" />
     <ClCompile Include="EngineBackend.cpp" />
     <ClCompile Include="InspectorScreen.cpp" />
     <ClCompile Include="SceneControlsScreen.cpp" />
@@ -198,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AComponent.h" />
+    <ClInclude Include="ActionHistory.h" />
     <ClInclude Include="AGameObject.h" />
     <ClInclude Include="AppWindow.h" />
     <ClInclude Include="AUIScreen.h" />
@@ -207,6 +210,7 @@
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DebugScreen.h" />
+    <ClInclude Include="EditorAction.h" />
     <ClInclude Include="EngineBackend.h" />
     <ClInclude Include="InspectorScreen.h" />
     <ClInclude Include="SceneControlsScreen.h" />

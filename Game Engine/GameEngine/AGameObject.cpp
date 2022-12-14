@@ -126,6 +126,35 @@ void AGameObject::setLocalMatrix(float matrix[16])
 	this->simulatePhysics = true;
 }
 
+Matrix4x4 AGameObject::getLocalMatrix()
+{
+	return this->localMatrix;
+}
+
+void AGameObject::saveEditState()
+{
+	if (this->lastEditState == nullptr) 
+	{
+		// save the current state
+		this->lastEditState = new EditorAction(this);
+	}
+}
+
+void AGameObject::restoreEditState()
+{
+	if (this->lastEditState != nullptr) 
+	{
+		this->localPosition = this->lastEditState->getStorePos();
+		this->localScale = this->lastEditState->getStoredScale();
+		this->localRotation = this->lastEditState->getStoredRotation();
+		this->localMatrix = this->lastEditState->getStoredMatrix();
+		this->lastEditState = nullptr;
+	}
+	else {
+		std::cout << " Nothing to restore \n";
+	}
+}
+
 void AGameObject::awake()
 {
 

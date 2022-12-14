@@ -23,11 +23,9 @@ public:
 private:
 	EngineBackend();
 	~EngineBackend();
-	EngineBackend(EngineBackend const&) {};             // copy constructor is private
-	EngineBackend& operator=(EngineBackend const&) {};  // assignment operator is private*/
-
+	EngineBackend(EngineBackend const&) {};  
+	EngineBackend& operator=(EngineBackend const&) {};  
 	static EngineBackend* sharedInstance;
-
 	EditorMode editorMode = EditorMode::EDITOR;
 
 	bool frameStepping = false;

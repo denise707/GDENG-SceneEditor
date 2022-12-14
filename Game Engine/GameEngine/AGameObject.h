@@ -7,15 +7,20 @@
 #include "VertexBuffer.h"
 #include "PhysicsComponent.h"
 #include <vector>
+#include"EditorAction.h"
 
 using namespace std;
 
+
 class VertexShader;
 class PixelShader;
+class EditorAction;
 
 class AGameObject
 {
 public:
+	typedef std::string String;
+
 	AGameObject(string name);
 	~AGameObject();
 
@@ -32,6 +37,8 @@ public:
 
 	void setRotation(float x, float y, float z);
 	void setRotation(Vector3D rot);
+	void saveEditState();
+	void restoreEditState();
 	Vector3D getLocalRotation();
 	
 	VertexBuffer* getVertexBuffer();
@@ -41,7 +48,7 @@ public:
 	string type;
 	bool rigidBodyEnabled = false;
 
-	string getName();
+	String getName();
 	void setName(string name);
 
 	struct Vertex
@@ -63,6 +70,8 @@ public:
 	//Physics transformations
 	bool simulatePhysics = false;
 	void setLocalMatrix(float matrix[16]);
+	Matrix4x4 getLocalMatrix();
+
 
 	bool isSelected =false;
 	bool isActive = true;
@@ -86,5 +95,9 @@ protected:
 	ConstantBuffer* constantBuffer;
 
 	virtual void awake();
+	
+private:
+	EditorAction* lastEditState = nullptr;
+
 };
 

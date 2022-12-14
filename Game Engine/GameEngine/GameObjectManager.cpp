@@ -272,4 +272,19 @@ void GameObjectManager::updateTexture(bool isTextured)
 	//	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(default_ps);
 	//}
 }
+void GameObjectManager::saveEditStates()
+{
+	for (int i = 0; i < this->objList.size(); i++) 
+	{
+		this->objList[i]->saveEditState();
+	}
+}
+
+void GameObjectManager::restoreEditStates()
+{
+	for (int i = 0; i < this->objList.size(); i++) 
+	{
+		this->objList[i]->restoreEditState();
+	}
+}
 
