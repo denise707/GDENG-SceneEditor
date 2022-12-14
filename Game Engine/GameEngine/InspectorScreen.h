@@ -12,7 +12,9 @@ public:
 	static bool isOpen;
 	std::string modelFilename;
 	void enterFilename();
+	void enterTexName();
 	static bool openFilenameGetter;
+	bool openTexnameGetter = false;
 private:
 	float posDisp[3] = { 0.0f, 0.0f, 0.0f };
 	float rotDisp[3] = { 0.0f, 0.0f, 0.0f };

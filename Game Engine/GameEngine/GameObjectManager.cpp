@@ -254,7 +254,7 @@ void GameObjectManager::selectObject(AGameObject* obj)
 void GameObjectManager::drawObjects(int width, int height, VertexShader* vertex_shader, PixelShader* pixel_shader)
 {
 	for (int i = 0; i < objList.size(); i++) {
-		updateTexture(objList[i]->isTextured);
+		updateTexture(objList[i]->isTextured, objList[i]->texture);
 		if(objList[i]->isActive)
 			objList[i]->draw(width, height, vertex_shader, pixel_shader);
 	}
@@ -273,16 +273,44 @@ void GameObjectManager::EnablePhysics(bool isEnabled)
 	}
 }
 
-void GameObjectManager::updateTexture(bool isTextured)
+void GameObjectManager::updateTexture(bool isTextured, string textured)
 {
 	if (isTextured) {
 		GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(textured_vs);
 		GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(textured_ps);
 
 		//Load Texture
-		ID3D11ShaderResourceView* texture;
-		bool ret = LoadTextureFromFile("..\\Assets\\Textures\\brick.png", &texture);
-		GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(texture);
+
+		if (textured == "brick") {
+			ID3D11ShaderResourceView* texture;
+			bool ret = LoadTextureFromFile("..\\Assets\\Textures\\brick.png", &texture);
+			GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(texture);
+		}
+		else if (textured == "sand") {
+			ID3D11ShaderResourceView* texture;
+			bool ret = LoadTextureFromFile("..\\Assets\\Textures\\sand.jpg", &texture);
+			GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(texture);
+		}
+		else if (textured == "wood") {
+			ID3D11ShaderResourceView* texture;
+			bool ret = LoadTextureFromFile("..\\Assets\\Textures\\wood.jpg", &texture);
+			GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(texture);
+		}
+		else if (textured == "wall") {
+			ID3D11ShaderResourceView* texture;
+			bool ret = LoadTextureFromFile("..\\Assets\\Textures\\wall.jpg", &texture);
+			GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(texture);
+		}
+		else if (textured == "sky") {
+			ID3D11ShaderResourceView* texture;
+			bool ret = LoadTextureFromFile("..\\Assets\\Textures\\sky.jpg", &texture);
+			GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(texture);
+		}
+		else {
+			ID3D11ShaderResourceView* texture;
+			bool ret = LoadTextureFromFile("..\\Assets\\Textures\\sky.jpg", &texture);
+			GraphicsEngine::get()->getImmediateDeviceContext()->setDefaultTexture(&texture);
+		}
 	}
 
 	else {
@@ -290,6 +318,7 @@ void GameObjectManager::updateTexture(bool isTextured)
 		GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(default_ps);
 	}
 }
+
 void GameObjectManager::saveEditStates()
 {
 	for (int i = 0; i < this->objList.size(); i++) 
