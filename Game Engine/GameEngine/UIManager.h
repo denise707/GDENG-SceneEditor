@@ -15,6 +15,7 @@ public:
 	const String HIERARCHY_SCREEN = "HIERARCHY_SCREEN";
 	const String SCENECONTROLS_SCREEN = "SCENECONTROLS_SCREEN";
 	const String INSPECTOR_SCREEN = "INSPECTOR_SCREEN";
+	const String DEBUG_SCREEN = "DEBUG_SCREEN";
 
 
 };
@@ -31,6 +32,8 @@ public:
 	static void destroy();
 
 	void drawAllUI();
+
+	void debugLog(String text);
 
 	static const int WINDOW_WIDTH = 1024;
 	static const int WINDOW_HEIGHT = 768;
