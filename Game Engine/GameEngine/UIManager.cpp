@@ -5,6 +5,7 @@
 #include "HierarchyScreen.h"
 #include "SceneControlsScreen.h"
 #include "InspectorScreen.h"
+#include "DebugScreen.h"
 
 UIManager* UIManager::sharedInstance = NULL;
 
@@ -21,6 +22,17 @@ void UIManager::initialize(HWND windowHandle)
 void UIManager::destroy()
 {
 	delete sharedInstance;
+}
+
+void UIManager::debuLog(String text)
+{
+	UINames uiNames;
+	if (uiTable[uiNames.DEBUG_SCREEN] != nullptr)
+	{
+		AUIScreen* ds = uiTable[uiNames.DEBUG_SCREEN];
+		((DebugScreen*)ds)->printText(text);
+		std::cout << "printing text\n";
+	}
 }
 
 void UIManager::drawAllUI()
@@ -70,6 +82,10 @@ UIManager::UIManager(HWND windowHandle)
 	InspectorScreen* inspectorScreen = new InspectorScreen();
 	this->uiTable[uiNames.INSPECTOR_SCREEN] = inspectorScreen;
 	this->uiList.push_back(inspectorScreen);
+
+	DebugScreen* debugScreen = new DebugScreen();
+	this->uiTable[uiNames.DEBUG_SCREEN] = debugScreen;
+	this->uiList.push_back(debugScreen);
 }
 
 UIManager::~UIManager()

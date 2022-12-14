@@ -2,8 +2,10 @@
 #include "imgui.h"
 #include "UIManager.h"
 #include "GameObjectManager.h"
-#include "PhysicsComponent.h"
 #include <iostream>
+#include "PhysicsComponent.h"
+#include "BaseComponentSystem.h"
+#include "PhysicsSystem.h"
 
 bool InspectorScreen::isOpen = false;
 
@@ -20,6 +22,7 @@ InspectorScreen::~InspectorScreen()
 void InspectorScreen::drawUI()
 {
     string currGO = {};
+    bool currGOPhys;
 
     if (isOpen)
     {
@@ -33,38 +36,36 @@ void InspectorScreen::drawUI()
         if (GameObjectManager::get()->selectedObject)
         {
             currGO = GameObjectManager::get()->selectedObject->getName();
+            currGOPhys = GameObjectManager::get()->selectedObject->physicsEnabled;
             ImGui::Text("Name: "); ImGui::SameLine(); ImGui::Text(currGO.c_str());
             ImGui::Spacing();
             ImGui::Text("Object Properties: ");
 
-            AGameObject* obj = GameObjectManager::get()->selectedObject;
-            Vector3D v;
-            v = obj->getLocalPosition();
-            posDisp[0] = v.m_x; posDisp[1] = v.m_y; posDisp[2] = v.m_z;
+            if (ImGui::Checkbox("Active", &(GameObjectManager::get()->selectedObject->isActive))) {
 
-            v = obj->getLocalRotation();
-            rotDisp[0] = v.m_x; rotDisp[1] = v.m_y; rotDisp[2] = v.m_z;
-
-            v = obj->getLocalScale();
-            scaleDisp[0] = v.m_x; scaleDisp[1] = v.m_y; scaleDisp[2] = v.m_z;
-
-            if (ImGui::InputFloat3("Position", this->posDisp, "% .2f"))
+            }
+            if (ImGui::InputFloat3("Position", this->posDisp, "% .3f"))
             { 
                 this->updateTransform(); 
             }
-            if (ImGui::InputFloat3("Rotation", this->rotDisp, "% .2f"))
+            if (ImGui::InputFloat3("Rotation", this->rotDisp, "% .3f"))
             { 
                 this->updateTransform(); 
             }
-            if (ImGui::InputFloat3("Scale", this->scaleDisp, "% .2f"))
+            if (ImGui::InputFloat3("Scale", this->scaleDisp, "% .3f"))
             { 
                 this->updateTransform();
             }
+            if (ImGui::Checkbox("Attach Physics Component", &currGOPhys)) {
+                this->updatePhysicsComponent(currGOPhys);
+            }
+            if (ImGui::Checkbox("Attach Texture Component", &isOpen)) {
 
+            }
+            if (ImGui::Button("Delete Game Object")) {
+
+            }
         }
-     
-
-
         ImGui::End();
     }
 }
@@ -72,16 +73,20 @@ void InspectorScreen::drawUI()
 void InspectorScreen::updateTransform()
 {
 
- 
-    AGameObject* obj = GameObjectManager::get()->selectedObject;
-    obj->setPosition(this->posDisp[0], this->posDisp[1], this->posDisp[2]);
-    obj->setRotation(this->rotDisp[0], this->rotDisp[1], this->rotDisp[2]);
-    obj->setScale(this->scaleDisp[0], this->scaleDisp[1], this->scaleDisp[2]);
+    GameObjectManager::get()->selectedObject->setPosition(this->posDisp[0], this->posDisp[1], this->posDisp[2]);
+    GameObjectManager::get()->selectedObject->setRotation(this->rotDisp[0], this->rotDisp[1], this->rotDisp[2]);
+    GameObjectManager::get()->selectedObject->setScale(this->scaleDisp[0], this->scaleDisp[1], this->scaleDisp[2]);
+}
 
-    //if (obj->physicsComp)
-    //{
-    //    //((PhysicsComponent*)obj->physicsComp)->updateRigidBody();
-    //}
-
-
+void InspectorScreen::updatePhysicsComponent(bool attach) {
+    if (attach) {
+        PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", GameObjectManager::get()->selectedObject, BodyType::DYNAMIC, 50);
+        GameObjectManager::get()->selectedObject->physicsComponent = physicsComponent;
+        GameObjectManager::get()->selectedObject->physicsEnabled = true;
+    }
+    else {
+        BaseComponentSystem::getInstance()->getPhysicsSystem()->unregisterComponent(GameObjectManager::get()->selectedObject->physicsComponent);
+        GameObjectManager::get()->selectedObject->physicsComponent = NULL;
+        GameObjectManager::get()->selectedObject->physicsEnabled = false;
+    }
 }

@@ -18,9 +18,37 @@ PhysicsComponent::PhysicsComponent(String name, AGameObject* owner, BodyType bod
 	Transform transform;
 	transform.setPosition(Vector3(getOwner()->getLocalPosition().m_x, getOwner()->getLocalPosition().m_y, getOwner()->getLocalPosition().m_z));
 	transform.setOrientation(Quaternion::fromEulerAngles(Vector3(getOwner()->getLocalRotation().m_x, getOwner()->getLocalRotation().m_y, getOwner()->getLocalRotation().m_z)));
-	BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.m_x / 2, scale.m_y / 2, scale.m_z / 2)); //half extent
-	this->rigidBody = physicsWorld->createRigidBody(transform);
-	this->rigidBody->addCollider(boxShape, transform);
+
+	if (owner->type == "Cube")
+	{
+		BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.m_x / 2, scale.m_y / 2, scale.m_z / 2)); //half extent
+		this->rigidBody = physicsWorld->createRigidBody(transform);
+		this->rigidBody->addCollider(boxShape, transform);
+	}
+
+	else if (owner->type == "Plane")
+	{
+		BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.m_x * 2.0f, scale.m_y / 20, scale.m_z * 2.0f)); //half extent
+		this->rigidBody = physicsWorld->createRigidBody(transform);
+		this->rigidBody->addCollider(boxShape, transform);
+	}
+
+	else if (owner->type == "Sphere")
+	{
+		SphereShape* sphereShape = physicsCommon->createSphereShape(((getOwner()->getLocalScale().m_x + getOwner()->getLocalScale().m_y + getOwner()->getLocalScale().m_z)/ 3.0f) /2.0f); //half extent
+		this->rigidBody = physicsWorld->createRigidBody(transform);
+		this->rigidBody->addCollider(sphereShape, transform);
+	}
+
+	else if (owner->type == "Capsule")
+	{
+		float radius = ((getOwner()->getLocalScale().m_x +getOwner()->getLocalScale().m_z) / 2.0f) / 2.0f;
+		float height = getOwner()->getLocalScale().m_y;
+		CapsuleShape* capsuleShape = physicsCommon->createCapsuleShape(radius, height); //half extent
+		this->rigidBody = physicsWorld->createRigidBody(transform);
+		this->rigidBody->addCollider(capsuleShape, transform);
+	}
+	
 	this->rigidBody->updateMassPropertiesFromColliders();
 	this->rigidBody->setMass(nmass);
 	this->rigidBody->setType(bodyType);

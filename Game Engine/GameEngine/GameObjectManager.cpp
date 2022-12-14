@@ -9,6 +9,7 @@
 #include "Plane.h"
 #include "Sphere.h"
 #include "Mesh.h"
+#include "Capsule.h"
 
 GameObjectManager::GameObjectManager()
 {
@@ -34,9 +35,7 @@ void GameObjectManager::createCube()
 
 	//Create Primitive
 	Cube* cube = new Cube("Cube", shader_byte_code, size_shader);
-	cube->setRigidBodyEnabled(true);
 	objList.push_back(cube);
-	PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", cube, BodyType::DYNAMIC, 50);
 
 	//Release Compiled Shader
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -54,12 +53,10 @@ void GameObjectManager::createCube(string name, Vector3D position, Vector3D rota
 
 	//Create Primitive
 	Cube* cube = new Cube(name, shader_byte_code, size_shader);
-	//cube->setRigidBodyEnabled(true);
 	cube->setPosition(position);
 	cube->setRotation(rotation);
 	cube->setScale(scale);
 	objList.push_back(cube);
-	PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", cube, BodyType::DYNAMIC, 50);
 
 	//Release Compiled Shader
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -77,10 +74,7 @@ void GameObjectManager::createPlane()
 
 	//Create Primitive
 	Plane* plane = new Plane("Plane", shader_byte_code, size_shader);
-	plane->setPosition(0, -5, 0);
-	//plane->setRigidBodyEnabled(true);
 	objList.push_back(plane);
-	PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", plane, BodyType::STATIC, 10);
 
 	//Release Compiled Shader
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -98,15 +92,52 @@ void GameObjectManager::createSphere()
 
 	//Create Primitive
 	Sphere* sphere = new Sphere("Sphere", shader_byte_code, size_shader);
-	//plane->setRigidBodyEnabled(true);
 	objList.push_back(sphere);
-	//PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", plane, BodyType::STATIC, 10);
 
 	//Release Compiled Shader
 	GraphicsEngine::get()->releaseCompiledShader();
 
 	//Pixel Shader
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
+}
+
+void GameObjectManager::createCapsule()
+{
+	//Vertex Shader
+	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+
+	//Create Primitive
+	Capsule* capsule = new Capsule("Capsule", shader_byte_code, size_shader);
+	objList.push_back(capsule);
+
+	//Release Compiled Shader
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	//Pixel Shader
+	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
+}
+
+void GameObjectManager::createMesh()
+{
+	//Create Mesh
+	MeshPtr mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"..\\Assets\\Meshes\\teapot.obj", true);
+	mesh->isTextured = false;
+	mesh->setName("Static Mesh");
+	objList.push_back(mesh.get());
+
+	//Create Vertex Shader
+	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+
+	//Release Compiled Shader
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	//Pixel Shader
+	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
 }
 
@@ -137,7 +168,8 @@ void GameObjectManager::selectObject(AGameObject* obj)
 void GameObjectManager::drawObjects(int width, int height, VertexShader* vertex_shader, PixelShader* pixel_shader)
 {
 	for (int i = 0; i < objList.size(); i++) {
-		objList[i]->draw(width, height, vertex_shader, pixel_shader);
+		if(objList[i]->isActive)
+			objList[i]->draw(width, height, vertex_shader, pixel_shader);
 	}
 }
 
@@ -146,3 +178,11 @@ GameObjectManager* GameObjectManager::get()
 	static GameObjectManager gOManager;
 	return &gOManager;
 }
+
+void GameObjectManager::EnablePhysics(bool isEnabled)
+{
+	for (int i = 0; i < objList.size(); i++) {
+		objList[i]->rigidBodyEnabled = isEnabled;
+	}
+}
+

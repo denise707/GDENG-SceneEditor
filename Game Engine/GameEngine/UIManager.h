@@ -15,6 +15,7 @@ public:
 	const String HIERARCHY_SCREEN = "HIERARCHY_SCREEN";
 	const String SCENECONTROLS_SCREEN = "SCENECONTROLS_SCREEN";
 	const String INSPECTOR_SCREEN = "INSPECTOR_SCREEN";
+	const String DEBUG_SCREEN = "DEBUG_SCREEN";
 
 
 };
@@ -29,6 +30,8 @@ public:
 	static UIManager* getInstance();
 	static void initialize(HWND windowHandle);
 	static void destroy();
+
+	void debuLog(String text);
 
 	void drawAllUI();
 

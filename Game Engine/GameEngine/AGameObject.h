@@ -5,7 +5,7 @@
 #include "ConstantBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
-#include "AComponent.h"
+#include "PhysicsComponent.h"
 #include <vector>
 
 using namespace std;
@@ -42,6 +42,7 @@ public:
 	bool rigidBodyEnabled = false;
 
 	string getName();
+	void setName(string name);
 
 	struct Vertex
 	{
@@ -64,8 +65,10 @@ public:
 	void setLocalMatrix(float matrix[16]);
 
 	bool isSelected =false;
-
-	AComponent* physicsComp = nullptr;
+	bool isActive = true;
+public:
+	bool physicsEnabled = false;
+	PhysicsComponent* physicsComponent;
 
 protected:
 	//Name
