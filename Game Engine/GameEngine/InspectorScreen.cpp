@@ -84,7 +84,7 @@ void InspectorScreen::drawUI()
                 openTexnameGetter = true;
             }
             if (ImGui::Button("Delete Game Object")) {
-
+                GameObjectManager::get()->deleteObject();
             }
 
         }

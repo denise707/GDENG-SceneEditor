@@ -115,7 +115,7 @@ void GameObjectManager::createCube()
 	index++;
 }
 
-void GameObjectManager::createCube(string name, Vector3D position, Vector3D rotation, Vector3D scale)
+void GameObjectManager::createCube(string name, Vector3D position, Vector3D rotation, Vector3D scale, bool hasRigidBody)
 {
 	//Vertex Shader
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
@@ -123,10 +123,14 @@ void GameObjectManager::createCube(string name, Vector3D position, Vector3D rota
 
 	//Create Primitive
 	Cube* cube = new Cube(name, shader_byte_code, size_shader);
+	//cube->setRigidBodyEnabled(hasRigidBody);
 	cube->setPosition(position);
 	cube->setRotation(rotation);
 	cube->setScale(scale);
 	objList.push_back(cube);
+
+	//Add Physics Component
+	PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", cube, BodyType::DYNAMIC, 50);
 
 	//Release Compiled Shader
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -155,6 +159,31 @@ void GameObjectManager::createPlane()
 	index++;
 }
 
+void GameObjectManager::createPlane(string name, Vector3D position, Vector3D rotation, Vector3D scale, bool hasRigidBody)
+{
+	//Vertex Shader
+	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+
+	//Create Primitive
+	Plane* plane = new Plane("Plane", shader_byte_code, size_shader);
+	//plane->setRigidBodyEnabled(hasRigidBody);
+	plane->setPosition(position);
+	plane->setRotation(rotation);
+	plane->setScale(scale);
+	objList.push_back(plane);
+
+	//Add Physics Component
+	PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", plane, BodyType::STATIC, 10);
+
+	//Release Compiled Shader
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	//Pixel Shader
+	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
+}
+
 void GameObjectManager::createSphere()
 {
 	//Vertex Shader
@@ -174,6 +203,31 @@ void GameObjectManager::createSphere()
 	index++;
 }
 
+void GameObjectManager::createSphere(string name, Vector3D position, Vector3D rotation, Vector3D scale, bool hasRigidBody)
+{
+	//Vertex Shader
+	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+
+	//Create Primitive
+	Sphere* sphere = new Sphere("Sphere", shader_byte_code, size_shader);
+	sphere->setRigidBodyEnabled(hasRigidBody);
+	sphere->setPosition(position);
+	sphere->setRotation(rotation);
+	sphere->setScale(scale);
+	objList.push_back(sphere);
+
+	//Add Physics Component
+	PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", sphere, BodyType::STATIC, 10);
+
+	//Release Compiled Shader
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	//Pixel Shader
+	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
+}
+
 void GameObjectManager::createCapsule()
 {
 	//Vertex Shader
@@ -191,6 +245,31 @@ void GameObjectManager::createCapsule()
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
 	index++;
+}
+
+void GameObjectManager::createCapsule(string name, Vector3D position, Vector3D rotation, Vector3D scale, bool hasRigidBody)
+{
+	//Vertex Shader
+	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+
+	//Create Primitive
+	Capsule* capsule = new Capsule("Capsule", shader_byte_code, size_shader);
+	capsule->setRigidBodyEnabled(hasRigidBody);
+	capsule->setPosition(position);
+	capsule->setRotation(rotation);
+	capsule->setScale(scale);
+	objList.push_back(capsule);
+
+	//Add Physics Component
+	PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", capsule, BodyType::STATIC, 10);
+
+	//Release Compiled Shader
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	//Pixel Shader
+	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
 }
 
 void GameObjectManager::createMesh(string name)
@@ -232,10 +311,19 @@ vector<AGameObject*> GameObjectManager::getAllObjects()
 	return this->objList;
 }
 
-void GameObjectManager::createObjectFromFile(string name, string type, Vector3D position, Vector3D rotation, Vector3D scale)
+void GameObjectManager::createObjectFromFile(string name, string type, Vector3D position, Vector3D rotation, Vector3D scale, bool hasRigidBody)
 {
 	if (type == "Cube") {
-		createCube(name, position, rotation, scale);
+		createCube(name, position, rotation, scale, hasRigidBody);
+	}
+	else if (type == "Plane") {
+		createPlane(name, position, rotation, scale, hasRigidBody);
+	}
+	else if (type == "Sphere") {
+		createSphere(name, position, rotation, scale, hasRigidBody);
+	}
+	else if (type == "Capsule") {
+		createCapsule(name, position, rotation, scale, hasRigidBody);
 	}
 }
 
@@ -362,6 +450,17 @@ AGameObject* GameObjectManager::getObjectWithName(string name)
 	}
 	
 	return  nullptr;
+}
+
+void GameObjectManager::deleteObject()
+{
+	vector<AGameObject*> newObjList;
+	for (int i = 0; i < objList.size(); i++) {
+		if (objList[i] != selectedObject) {
+			newObjList.push_back(objList[i]);
+		}
+	}
+	objList = newObjList;
 }
 
 

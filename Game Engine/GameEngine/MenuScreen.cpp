@@ -66,6 +66,7 @@ void MenuScreen::saveScene()
 
 	vector<AGameObject*> allObjects = GameObjectManager::get()->getAllObjects();
 
+
 	sceneFile << "{" << std::endl;
 	sceneFile << "\"primitive\": [" << std::endl;
 
@@ -79,7 +80,12 @@ void MenuScreen::saveScene()
 		sceneFile << "\"name\":" << "\" " << allObjects[i]->getName() << " \"," << std::endl;
 		sceneFile << "\"type\":" << "\" " << allObjects[i]->type << " \"," << std::endl;
 
-		sceneFile << "\"hasRigidBody\":" << " \"true\" ," << std::endl;
+		if (allObjects[i]->type == "Plane") {
+			sceneFile << "\"hasRigidBody\": " << false << " ," << std::endl;
+		}
+		else {
+			sceneFile << "\"hasRigidBody\": " << allObjects[i]->rigidBodyEnabled << " ," << std::endl;
+		}
 
 		sceneFile << "\"position\":{\n" << "\"x\": " << position.m_x << " ,\n" << "\"y\": " << position.m_y << " ,\n" << "\"z\": " << position.m_z << "\n }," << std::endl;
 		sceneFile << "\"rotation\":{\n" << "\"x\": " << rotation.m_x << " ,\n" << "\"y\": " << rotation.m_y << " ,\n" << "\"z\": " << rotation.m_z << " ,\n" << "\"w\": " << 0 << "\n }," << std::endl;
@@ -93,7 +99,7 @@ void MenuScreen::saveScene()
 		}
 	}
 	sceneFile << "] \n}" << std::endl;
-
+	
 	sceneFile.close();
 }
 
@@ -122,7 +128,7 @@ void MenuScreen::loadScene()
 
 	String objectName;
 	String objectType;
-	String objectRigidBody;
+	bool objectRigidBody;
 	Vector3D position;
 	Vector3D rotation;
 	Vector3D scale;
@@ -147,7 +153,7 @@ void MenuScreen::loadScene()
 			}
 			else if (index == (5)) {
 				std::vector<std::string> stringSplit = split(readLine, ' ');
-				objectRigidBody = stringSplit[1];
+				objectRigidBody = std::stoi(stringSplit[1]);
 				index++;
 			}
 			//Spacer
@@ -209,7 +215,7 @@ void MenuScreen::loadScene()
 				std::vector<std::string> stringSplit = split(readLine, ' ');
 				scale.m_z = std::stof(stringSplit[1]);
 				index = 0;
-				GameObjectManager::get()->createObjectFromFile(objectName, objectType, position, rotation, scale);
+				GameObjectManager::get()->createObjectFromFile(objectName, objectType, position, rotation, scale, objectRigidBody);
 			}
 		}
 	}

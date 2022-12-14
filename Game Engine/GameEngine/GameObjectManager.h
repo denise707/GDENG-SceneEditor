@@ -47,14 +47,17 @@ public:
 	void drawObjects(int width, int height, VertexShader* vertex_shader, PixelShader* pixel_shader);
 	void initialize(void* shader_byte_code, size_t size_shader);
 	void createCube();
-	void createCube(string name, Vector3D position, Vector3D rotation, Vector3D scale);
+	void createCube(string name, Vector3D position, Vector3D rotation, Vector3D scale, bool hasRigidBody);
 	void createPlane();
+	void createPlane(string name, Vector3D position, Vector3D rotation, Vector3D scale, bool hasRigidBody);
 	void createSphere();
+	void createSphere(string name, Vector3D position, Vector3D rotation, Vector3D scale, bool hasRigidBody);
 	void createCapsule();
+	void createCapsule(string name, Vector3D position, Vector3D rotation, Vector3D scale, bool hasRigidBody);
 	void createMesh(string name);
 
 	vector<AGameObject*> getAllObjects();
-	void createObjectFromFile(string name, string type, Vector3D position, Vector3D rotation, Vector3D scale);
+	void createObjectFromFile(string name, string type, Vector3D position, Vector3D rotation, Vector3D scale, bool hasRigidBody);
 	void EnablePhysics(bool isEnabled);
 
 	void selectObject(AGameObject* obj);
@@ -66,6 +69,7 @@ public:
 	void updateAllObjectState(EditorAction* action);
 	AGameObject* getObjectWithName(string name);
 	void updateAllObjectState();
+	void deleteObject();
 
 	int index = 0;
 };
