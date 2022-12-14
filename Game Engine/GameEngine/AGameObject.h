@@ -39,6 +39,7 @@ public:
 	void setRotation(Vector3D rot);
 	void saveEditState();
 	void restoreEditState();
+	void resetComponents();
 	Vector3D getLocalRotation();
 	
 	VertexBuffer* getVertexBuffer();

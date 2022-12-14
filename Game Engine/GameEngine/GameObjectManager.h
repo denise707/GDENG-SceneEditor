@@ -63,6 +63,7 @@ public:
 	void updateTexture(bool isTextured);
 	void saveEditStates();
 	void restoreEditStates();
+	void updateAllObjects();
 };
 
 

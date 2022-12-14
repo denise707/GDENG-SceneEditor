@@ -5,7 +5,7 @@
 #include "EngineBackend.h"
 #include <iostream>
 
-bool SceneControlsScreen::isOpen = false;
+bool SceneControlsScreen::isOpen = true;
 
 SceneControlsScreen::SceneControlsScreen() : AUIScreen("SceneControlsScreen")
 {
@@ -34,7 +34,7 @@ void SceneControlsScreen::drawUI()
 
          // ENGINE STATES
         ImGui::Text("Engine State Controls");
-        if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::EDITOR)
+        if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::EDITOR || EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PAUSED)
         {
             label = "Play";
             const char* playerScene = label.data();
@@ -44,51 +44,42 @@ void SceneControlsScreen::drawUI()
                 cout << "Play Scene\n";
             }
 
-
-            ImGui::Spacing();
-            // EDITOR STATES
-            ImGui::Text("Edtior State Controls");
-            label = "UNDO";
-            const char* undoState = label.data();
-            if (ImGui::Button(undoState, ImVec2(50, 20)))
-            {
-               
-                cout << "Undo Scene\n";
-            }
-            ImGui::SameLine;
-            ImGui::SameLine;
-
-            label = "REDO";
-            const char* redoState = label.data();
-            if (ImGui::Button(redoState, ImVec2(50, 20)))
-            {
-                cout << "Redo Scene\n";
-            }
-        }  
-        else
-        {
             if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PAUSED)
             {
-                // DISPLAY PAUSE BUTTON AND STOP WHEN IN OTHER STATES
-                label = "Play";
-                const char* playScene = label.data();
-                if (ImGui::Button(playScene, ImVec2(50, 20)))
+                ImGui::Spacing();
+                // EDITOR STATES
+                ImGui::Text("Edtior State Controls");
+                label = "UNDO";
+                const char* undoState = label.data();
+                if (ImGui::Button(undoState, ImVec2(50, 20)))
                 {
-                    EngineBackend::getInstance()->setMode(EngineBackend::PLAY);
-                    cout << "Play Scene\n";
+
+                    cout << "Undo Scene\n";
+                }
+                ImGui::SameLine;
+                label = "REDO";
+                const char* redoState = label.data();
+                if (ImGui::Button(redoState, ImVec2(50, 20)))
+                {
+                    cout << "Redo Scene\n";
                 }
             }
-            else
+        }  
+        
+        if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PLAY)
+        {
+            // DISPLAY PAUSE BUTTON AND STOP WHEN IN OTHER STATES
+            label = "Pause";
+            const char* pauseScene = label.data();
+            if (ImGui::Button(pauseScene, ImVec2(50, 20)))
             {
-                // DISPLAY PAUSE BUTTON AND STOP WHEN IN OTHER STATES
-                label = "Pause";
-                const char* pauseScene = label.data();
-                if (ImGui::Button(pauseScene, ImVec2(50, 20)))
-                {
-                    EngineBackend::getInstance()->setMode(EngineBackend::PAUSED);
-                    cout << "Pause Scene\n";
-                }
+                EngineBackend::getInstance()->setMode(EngineBackend::PAUSED);
+                cout << "Pause Scene\n";
             }
+        }
+
+        if(EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PAUSED || EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PLAY)
+        {
             ImGui::SameLine;
 
             label = "Stop";

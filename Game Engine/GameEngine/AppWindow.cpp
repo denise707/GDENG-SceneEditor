@@ -95,22 +95,21 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
 	//UPDATE BASED IN ENGINE STATE
-	if (EngineBackend::getInstance()->getMode() == EngineBackend::EDITOR)
+	if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::EDITOR)
 	{
-		//UPDATE PHYSICS
-		//BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
+		
 	}
-	else if (EngineBackend::getInstance()->getMode() == EngineBackend::PLAY)
+	else if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PLAY)
 	{
 		//UPDATE PHYSICS
 		BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
 	}
-	else if (EngineBackend::getInstance()->getMode() == EngineBackend::PAUSED)
+	else if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PAUSED)
 	{
 		if (EngineBackend::getInstance()->insideFrameStep())
 		{
 			//UPDATE PHYSICS
-			BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
+			//BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
 
 			EngineBackend::getInstance()->endFrameStep();
 		}

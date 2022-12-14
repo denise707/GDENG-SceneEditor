@@ -2,7 +2,7 @@
 
 EditorAction::EditorAction(AGameObject* gameObject)
 {
-	//capture object state
+	//save state
 	this->objectName = gameObject->getName();
 	this->localPosition = gameObject->getLocalPosition();
 	this->localScale = gameObject->getLocalScale();

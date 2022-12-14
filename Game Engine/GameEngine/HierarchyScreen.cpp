@@ -4,7 +4,7 @@
 #include "GameObjectManager.h"
 #include <iostream>
 
-bool HierarchyScreen::isOpen = false;
+bool HierarchyScreen::isOpen = true;
 
 HierarchyScreen::HierarchyScreen() : AUIScreen("HierarchyScreen")
 {

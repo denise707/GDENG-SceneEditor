@@ -1,5 +1,8 @@
 #include "AGameObject.h"
 #include <iostream>
+#include "GameObjectManager.h"
+#include "BaseComponentSystem.h"
+#include "PhysicsSystem.h"
 
 AGameObject::AGameObject(string name)
 {
@@ -122,8 +125,8 @@ void AGameObject::setLocalMatrix(float matrix[16])
 	this->localMatrix *= scaleMatrix; 
 	this->localMatrix *= transMatrix; 
 	this->localMatrix *= newMatrix; 
-
 	this->simulatePhysics = true;
+
 }
 
 Matrix4x4 AGameObject::getLocalMatrix()
@@ -135,6 +138,7 @@ void AGameObject::saveEditState()
 {
 	if (this->lastEditState == nullptr) 
 	{
+		cout << "created last edit\n";
 		// save the current state
 		this->lastEditState = new EditorAction(this);
 	}
@@ -148,13 +152,31 @@ void AGameObject::restoreEditState()
 		this->localScale = this->lastEditState->getStoredScale();
 		this->localRotation = this->lastEditState->getStoredRotation();
 		this->localMatrix = this->lastEditState->getStoredMatrix();
+		resetComponents();
+		this->simulatePhysics = false;
+
 		this->lastEditState = nullptr;
+		 // dettach 
+
+		// attach component
 	}
 	else {
 		std::cout << " Nothing to restore \n";
 	}
 }
+void AGameObject::resetComponents()
+{
+	if (this->physicsEnabled)
+	{
+		std::cout << " resetPhysics" << this->name<<" \n";
 
+		BaseComponentSystem::getInstance()->getPhysicsSystem()->unregisterComponent(GameObjectManager::get()->selectedObject->physicsComponent);
+		GameObjectManager::get()->selectedObject->physicsComponent = NULL;
+
+		PhysicsComponent* physicsComponent = new PhysicsComponent("PhysicsComponent", GameObjectManager::get()->selectedObject, BodyType::DYNAMIC, 50);
+		GameObjectManager::get()->selectedObject->physicsComponent = physicsComponent;
+	}
+}
 void AGameObject::awake()
 {
 

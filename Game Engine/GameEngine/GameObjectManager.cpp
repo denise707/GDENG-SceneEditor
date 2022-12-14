@@ -277,14 +277,27 @@ void GameObjectManager::saveEditStates()
 	for (int i = 0; i < this->objList.size(); i++) 
 	{
 		this->objList[i]->saveEditState();
+		cout << "saved: " << +" " + objList[i]->getName() + "\n";
+
 	}
 }
 
 void GameObjectManager::restoreEditStates()
 {
+
 	for (int i = 0; i < this->objList.size(); i++) 
 	{
 		this->objList[i]->restoreEditState();
+		cout << "restored: " << +" " + objList[i]->getName() + "\n";
+
+	}
+}
+
+void GameObjectManager::updateAllObjects()
+{
+	for (int i = 0; i < this->objList.size(); i++)
+	{
+		//this->objList[i]->restoreEditState();
 	}
 }
 

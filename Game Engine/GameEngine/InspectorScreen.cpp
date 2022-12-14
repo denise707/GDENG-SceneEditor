@@ -7,7 +7,7 @@
 #include "BaseComponentSystem.h"
 #include "PhysicsSystem.h"
 
-bool InspectorScreen::isOpen = false;
+bool InspectorScreen::isOpen = true;
 
 InspectorScreen::InspectorScreen() : AUIScreen("InspectorScreen")
 {
