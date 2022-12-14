@@ -1,5 +1,30 @@
 #pragma once
-#include "AGameObject.h"
+#include <vector>
+#include "Window.h"
+#include "GraphicsEngine.h"
+#include "SwapChain.h"
+#include "DeviceContext.h"
+#include "InputListener.h"
+
+// buffers
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "ConstantBuffer.h"
+
+// shaders
+#include "VertexShader.h"
+#include "PixelShader.h"
+
+//math
+#include "Matrix4x4.h"
+
+//primitives
+#include "Cube.h"
+#include "Plane.h"
+
+#include "Mesh.h"
+#include "Vector3D.h"
+
 class GameObjectManager
 {
 private:
@@ -11,7 +36,9 @@ private:
 	void* shader_byte_code;
 	size_t size_shader;
 	vector<AGameObject*> objList;
-
+	vector<MeshPtr> meshList;
+	VertexShader* m_vs;
+	PixelShader* m_ps;
 public:
 	static GameObjectManager* get();
 public:
@@ -22,6 +49,8 @@ public:
 	void createPlane();
 	void createSphere();
 	void createCapsule();
+	void createMesh();
+
 	vector<AGameObject*> getAllObjects();
 	void createObjectFromFile(string name, string type, Vector3D position, Vector3D rotation, Vector3D scale);
 	void EnablePhysics(bool isEnabled);

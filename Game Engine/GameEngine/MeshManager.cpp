@@ -10,9 +10,10 @@ MeshManager::~MeshManager()
 {
 }
 
-MeshPtr MeshManager::createMeshFromFile(const wchar_t* file_path, bool isTextured)
+MeshPtr MeshManager::createMeshFromFile(const wchar_t* file_path, bool tx)
 {
-	return std::static_pointer_cast<Mesh>(createResourceFromFile(file_path, isTextured));
+	isTextured = tx;
+	return std::static_pointer_cast<Mesh>(createResourceFromFile(file_path, tx));
 }
 
 Resource* MeshManager::createResourceFromFileConcrete(const wchar_t* file_path)
@@ -20,7 +21,7 @@ Resource* MeshManager::createResourceFromFileConcrete(const wchar_t* file_path)
 	Mesh* mesh = nullptr;
 	try
 	{
-		mesh = new Mesh(file_path, this->isTextured);
+		mesh = new Mesh(file_path, isTextured);
 	}
 	catch (...) {}
 
