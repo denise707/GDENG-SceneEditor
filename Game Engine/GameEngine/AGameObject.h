@@ -76,6 +76,11 @@ public:
 
 	bool isSelected =false;
 	bool isActive = true;
+
+	AGameObject* parent;
+	vector<AGameObject*> getChildList();
+	void addChild(AGameObject* child);
+
 public:
 	bool physicsEnabled = false;
 	PhysicsComponent* physicsComponent;
@@ -94,6 +99,8 @@ protected:
 	VertexBuffer* vertexBuffer;
 	IndexBuffer* indexBuffer;
 	ConstantBuffer* constantBuffer;
+
+	vector<AGameObject*> childList;
 
 	virtual void awake();
 	
