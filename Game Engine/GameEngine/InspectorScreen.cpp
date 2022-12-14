@@ -39,7 +39,7 @@ void InspectorScreen::drawUI()
         {   
             currGO = GameObjectManager::get()->selectedObject->getName();
             currGOPhys = GameObjectManager::get()->selectedObject->physicsEnabled;
-            //currGOTex = GameObjectManager::get()->selectedObject->isTextured;
+            currGOTex = GameObjectManager::get()->selectedObject->isTextured;
             ImGui::Text("Name: "); ImGui::SameLine(); ImGui::Text(currGO.c_str());
             ImGui::Spacing();
             ImGui::Text("Object Properties: ");
@@ -133,5 +133,5 @@ void InspectorScreen::updatePhysicsComponent(bool attach) {
 
 void InspectorScreen::updateTextureComponent(bool attach)
 {
-    //GameObjectManager::get()->selectedObject->isTextured = attach;
+    GameObjectManager::get()->selectedObject->isTextured = attach;
 }

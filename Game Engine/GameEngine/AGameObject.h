@@ -84,7 +84,7 @@ public:
 public:
 	bool physicsEnabled = false;
 	PhysicsComponent* physicsComponent;
-
+	bool isTextured = false;
 protected:
 	//Name
 	string name;
