@@ -36,8 +36,11 @@ private:
 	void* shader_byte_code;
 	size_t size_shader;
 	vector<AGameObject*> objList;
-	VertexShader* m_vs;
-	PixelShader* m_ps;
+	VertexShader* textured_vs;
+	PixelShader* textured_ps;
+
+	VertexShader* default_vs;
+	PixelShader* default_ps;
 public:
 	static GameObjectManager* get();
 public:
@@ -57,6 +60,7 @@ public:
 	void selectObject(AGameObject* obj);
 	
 	AGameObject* selectedObject = nullptr;
+	void updateTexture(bool isTextured);
 };
 
 

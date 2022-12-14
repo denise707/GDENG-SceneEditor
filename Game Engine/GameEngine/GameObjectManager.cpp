@@ -11,6 +11,9 @@
 #include "Mesh.h"
 #include "Capsule.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 GameObjectManager::GameObjectManager()
 {
 }
@@ -19,12 +22,78 @@ GameObjectManager::~GameObjectManager()
 {
 }
 
+bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** out_srv)
+{
+	// Load from disk into a raw RGBA buffer
+	int image_width = 0;
+	int image_height = 0;
+	unsigned char* image_data = stbi_load(filename, &image_width, &image_height, NULL, 4);
+	if (image_data == NULL)
+		return false;
+
+	// Create texture
+	D3D11_TEXTURE2D_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+	desc.Width = image_width;
+	desc.Height = image_height;
+	desc.MipLevels = 1;
+	desc.ArraySize = 1;
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.SampleDesc.Count = 1;
+	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	desc.CPUAccessFlags = 0;
+
+	ID3D11Texture2D* pTexture = NULL;
+	D3D11_SUBRESOURCE_DATA subResource;
+	subResource.pSysMem = image_data;
+	subResource.SysMemPitch = desc.Width * 4;
+	subResource.SysMemSlicePitch = 0;
+	GraphicsEngine::get()->getDevice()->CreateTexture2D(&desc, &subResource, &pTexture);
+
+	// Create texture view
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+	ZeroMemory(&srvDesc, sizeof(srvDesc));
+	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = desc.MipLevels;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+	GraphicsEngine::get()->getDevice()->CreateShaderResourceView(pTexture, &srvDesc, out_srv);
+	pTexture->Release();
+
+	stbi_image_free(image_data);
+
+	return true;
+}
+
 void GameObjectManager::initialize(void* shader_byte_code, size_t size_shader)
 {
 	width = UIManager::WINDOW_WIDTH;
 	height = UIManager::WINDOW_HEIGHT;
 	this->shader_byte_code = shader_byte_code;
 	this->size_shader = size_shader;
+
+	//Textured Shaders
+	//Create Vertex Shader
+	GraphicsEngine::get()->compileVertexShader(L"TexturedVertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	textured_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	//Pixel Shader
+	GraphicsEngine::get()->compilePixelShader(L"TexturedPixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	textured_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	//DefaultShaders
+	//Vertex Shader
+	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	default_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	//Pixel Shader
+	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	default_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
 }
 
 void GameObjectManager::createCube()
@@ -130,14 +199,14 @@ void GameObjectManager::createMesh()
 
 	//Create Vertex Shader
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+	GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
 	//Release Compiled Shader
 	GraphicsEngine::get()->releaseCompiledShader();
 
 	//Pixel Shader
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
+	GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
 }
 
@@ -184,5 +253,23 @@ void GameObjectManager::EnablePhysics(bool isEnabled)
 	for (int i = 0; i < objList.size(); i++) {
 		objList[i]->rigidBodyEnabled = isEnabled;
 	}
+}
+
+void GameObjectManager::updateTexture(bool isTextured)
+{
+	//if (isTextured) {
+	//	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(textured_vs);
+	//	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(textured_ps);
+
+	//	//Load Texture
+	//	ID3D11ShaderResourceView* texture;
+	//	bool ret = LoadTextureFromFile("..\\Assets\\Textures\\brick.png", &texture);
+	//	GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(texture);
+	//}
+
+	//else {
+	//	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(default_vs);
+	//	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(default_ps);
+	//}
 }
 

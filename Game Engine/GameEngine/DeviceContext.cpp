@@ -111,6 +111,11 @@ void DeviceContext::setTexture(const PixelShader* pixel_shader, const TexturePtr
 	m_device_context->PSSetShaderResources(0, 1, &texture->m_shader_res_view);
 }
 
+void DeviceContext::setTexture(ID3D11ShaderResourceView* srv)
+{
+	m_device_context->PSSetShaderResources(0, 1, &srv);
+}
+
 void DeviceContext::setDefaultTexture(ID3D11ShaderResourceView** out_srv)
 {
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;

@@ -23,6 +23,7 @@ void InspectorScreen::drawUI()
 {
     string currGO = {};
     bool currGOPhys;
+    bool currGOTex;
 
     if (isOpen)
     {
@@ -37,6 +38,7 @@ void InspectorScreen::drawUI()
         {   
             currGO = GameObjectManager::get()->selectedObject->getName();
             currGOPhys = GameObjectManager::get()->selectedObject->physicsEnabled;
+            //currGOTex = GameObjectManager::get()->selectedObject->isTextured;
             ImGui::Text("Name: "); ImGui::SameLine(); ImGui::Text(currGO.c_str());
             ImGui::Spacing();
             ImGui::Text("Object Properties: ");
@@ -72,8 +74,8 @@ void InspectorScreen::drawUI()
             if (ImGui::Checkbox("Attach Physics Component", &currGOPhys)) {
                 this->updatePhysicsComponent(currGOPhys);
             }
-            if (ImGui::Checkbox("Attach Texture Component", &isOpen)) {
-
+            if (ImGui::Checkbox("Attach Texture Component", &currGOTex)) {
+                this->updateTextureComponent(currGOTex);
             }
             if (ImGui::Button("Delete Game Object")) {
 
@@ -103,4 +105,9 @@ void InspectorScreen::updatePhysicsComponent(bool attach) {
         GameObjectManager::get()->selectedObject->physicsComponent = NULL;
         GameObjectManager::get()->selectedObject->physicsEnabled = false;
     }
+}
+
+void InspectorScreen::updateTextureComponent(bool attach)
+{
+    //GameObjectManager::get()->selectedObject->isTextured = attach;
 }

@@ -10,8 +10,6 @@
 #include "PhysicsSystem.h"
 #include "EngineBackend.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 #include "GameObjectManager.h"
 
 AppWindow::AppWindow()

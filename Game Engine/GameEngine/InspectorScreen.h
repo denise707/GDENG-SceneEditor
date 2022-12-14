@@ -18,5 +18,6 @@ private:
 
 	void updateTransform();
 	void updatePhysicsComponent(bool attach);
+	void updateTextureComponent(bool attach);
 };
 
