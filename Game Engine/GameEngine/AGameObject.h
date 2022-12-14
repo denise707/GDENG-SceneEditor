@@ -5,6 +5,7 @@
 #include "ConstantBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
+#include "PhysicsComponent.h"
 #include <vector>
 
 using namespace std;
@@ -67,6 +68,7 @@ public:
 
 public:
 	bool physicsEnabled = false;
+	PhysicsComponent* physicsComponent;
 
 protected:
 	//Name

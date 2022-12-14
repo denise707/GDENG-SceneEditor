@@ -49,8 +49,6 @@ PhysicsComponent::PhysicsComponent(String name, AGameObject* owner, BodyType bod
 		this->rigidBody->addCollider(capsuleShape, transform);
 	}
 	
-
-
 	this->rigidBody->updateMassPropertiesFromColliders();
 	this->rigidBody->setMass(nmass);
 	this->rigidBody->setType(bodyType);
