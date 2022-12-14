@@ -103,7 +103,7 @@ void GameObjectManager::createCube()
 	GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
 	//Create Primitive
-	Cube* cube = new Cube("Cube", shader_byte_code, size_shader);
+	Cube* cube = new Cube("Cube " + to_string(index), shader_byte_code, size_shader);
 	objList.push_back(cube);
 
 	//Release Compiled Shader
@@ -112,6 +112,7 @@ void GameObjectManager::createCube()
 	//Pixel Shader
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
+	index++;
 }
 
 void GameObjectManager::createCube(string name, Vector3D position, Vector3D rotation, Vector3D scale)
@@ -142,7 +143,7 @@ void GameObjectManager::createPlane()
 	GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
 	//Create Primitive
-	Plane* plane = new Plane("Plane", shader_byte_code, size_shader);
+	Plane* plane = new Plane("Plane " + to_string(index), shader_byte_code, size_shader);
 	objList.push_back(plane);
 
 	//Release Compiled Shader
@@ -151,6 +152,7 @@ void GameObjectManager::createPlane()
 	//Pixel Shader
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
+	index++;
 }
 
 void GameObjectManager::createSphere()
@@ -160,7 +162,7 @@ void GameObjectManager::createSphere()
 	GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
 	//Create Primitive
-	Sphere* sphere = new Sphere("Sphere", shader_byte_code, size_shader);
+	Sphere* sphere = new Sphere("Sphere " + to_string(index), shader_byte_code, size_shader);
 	objList.push_back(sphere);
 
 	//Release Compiled Shader
@@ -169,6 +171,7 @@ void GameObjectManager::createSphere()
 	//Pixel Shader
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
+	index++;
 }
 
 void GameObjectManager::createCapsule()
@@ -178,7 +181,7 @@ void GameObjectManager::createCapsule()
 	GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
 	//Create Primitive
-	Capsule* capsule = new Capsule("Capsule", shader_byte_code, size_shader);
+	Capsule* capsule = new Capsule("Capsule " + to_string(index), shader_byte_code, size_shader);
 	objList.push_back(capsule);
 
 	//Release Compiled Shader
@@ -187,14 +190,27 @@ void GameObjectManager::createCapsule()
 	//Pixel Shader
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
+	index++;
 }
 
-void GameObjectManager::createMesh()
+void GameObjectManager::createMesh(string name)
 {
 	//Create Mesh
-	MeshPtr mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"..\\Assets\\Meshes\\teapot.obj", true);
-	mesh->isTextured = false;
-	mesh->setName("Static Mesh");
+	MeshPtr mesh;
+	if (name == "armadillo") {
+		mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"..\\Assets\\Meshes\\armadillo.obj", false);
+	}
+	else if (name == "bunny") {
+		mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"..\\Assets\\Meshes\\bunny.obj", false);
+	}
+	else if (name == "statue") {
+		mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"..\\Assets\\Meshes\\statue.obj", false);
+	}
+	else if (name == "teapot") {
+		mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"..\\Assets\\Meshes\\teapot.obj", true);
+	}
+
+	mesh->setName("Static Mesh " + to_string(index));
 	objList.push_back(mesh.get());
 
 	//Create Vertex Shader
@@ -208,6 +224,7 @@ void GameObjectManager::createMesh()
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
+	index++;
 }
 
 vector<AGameObject*> GameObjectManager::getAllObjects()

@@ -38,7 +38,7 @@ void MenuScreen::drawUI()
             if (ImGui::MenuItem("Create Plane..")) { GameObjectManager::get()->createPlane(); }
 			if (ImGui::MenuItem("Create Sphere..")) { GameObjectManager::get()->createSphere(); }
 			if (ImGui::MenuItem("Create Capsule..")) { GameObjectManager::get()->createCapsule(); }
-			if (ImGui::MenuItem("Create Static Mesh..")) { GameObjectManager::get()->createMesh(); }
+			if (ImGui::MenuItem("Create Static Mesh..")) { InspectorScreen::openFilenameGetter = true; }
             if (ImGui::MenuItem("Save Scene..")) { saveScene(); }
 			if (ImGui::MenuItem("Load Scene..")) { loadScene(); }
             ImGui::EndMenu();
