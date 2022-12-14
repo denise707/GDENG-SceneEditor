@@ -135,7 +135,9 @@ void GameObjectManager::createMesh()
 	//Create Mesh
 	MeshPtr mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"..\\Assets\\Meshes\\teapot.obj", true);
 	mesh->isTextured = false;
-	meshList.push_back(mesh);
+	mesh->setName("StaticMesh");
+	mesh->type = "Mesh";
+	objList.push_back(mesh.get());
 
 	GraphicsEngine::get()->compileVertexShader(L"TexturedVertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
@@ -177,9 +179,6 @@ void GameObjectManager::drawObjects(int width, int height, VertexShader* vertex_
 {
 	for (int i = 0; i < objList.size(); i++) {
 		objList[i]->draw(width, height, vertex_shader, pixel_shader);
-	}
-	for (int i = 0; i < meshList.size(); i++) {
-		meshList[i]->draw(width, height, m_vs, m_ps);
 	}
 }
 

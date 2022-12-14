@@ -36,7 +36,6 @@ private:
 	void* shader_byte_code;
 	size_t size_shader;
 	vector<AGameObject*> objList;
-	vector<MeshPtr> meshList;
 	VertexShader* m_vs;
 	PixelShader* m_ps;
 public:
