@@ -38,6 +38,8 @@ public:
 
 	void setTexture(const VertexShader* vertex_shader, const TexturePtr& texture);
 	void setTexture(const PixelShader* pixel_shader, const TexturePtr& texture);
+	void setTexture(ID3D11ShaderResourceView* srv);
+
 	void setDefaultTexture(ID3D11ShaderResourceView** out_srv);
 
 	ID3D11DeviceContext* getDeviceContext();

@@ -24,10 +24,21 @@ void EngineBackend::setMode(EditorMode mode)
 
 	if (this->editorMode == EditorMode::PLAY) 
 	{
-		//GameObjectManager::getInstance()->saveEditStates();
+		// save when set to play
+		GameObjectManager::get()->saveEditStates();
+		cout << "Set to Play mode\n";
+
 	}
-	else if (this->editorMode == EditorMode::EDITOR) {
-		//GameObjectManager::getInstance()->restoreEditStates();
+	else if (this->editorMode == EditorMode::EDITOR) 
+	{	
+		//restore when in editor mode
+		GameObjectManager::get()->restoreEditStates();
+		cout << "Set to Editor mode\n";
+
+	}
+	else if (this->editorMode == EditorMode::PAUSED)
+	{
+		cout << "Set to Paused mode\n";
 	}
 }
 

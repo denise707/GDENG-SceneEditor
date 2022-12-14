@@ -4,7 +4,7 @@
 #include "GameObjectManager.h"
 #include <iostream>
 
-bool HierarchyScreen::isOpen = false;
+bool HierarchyScreen::isOpen = true;
 
 HierarchyScreen::HierarchyScreen() : AUIScreen("HierarchyScreen")
 {
@@ -34,7 +34,7 @@ void HierarchyScreen::drawUI()
             ImGui::Text(currGO.c_str());*/
 
             string label;
-            label = GameObjectManager::get()->getAllObjects().at(i)->getName();
+            label = GameObjectManager::get()->getAllObjects().at(i)->getName()+ "##" +  to_string(i);
             const char* objLabel = label.data();
 
             if (ImGui::Button(objLabel, ImVec2(150, 20)))

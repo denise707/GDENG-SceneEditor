@@ -9,9 +9,7 @@
 #include "BaseComponentSystem.h"
 #include "PhysicsSystem.h"
 #include "EngineBackend.h"
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "ActionHistory.h"
 #include "GameObjectManager.h"
 
 AppWindow::AppWindow()
@@ -73,6 +71,9 @@ void AppWindow::onCreate()
 
 	//Initialize Engine Backend
 	EngineBackend::getInstance()->initialize();
+
+	//Initialize ActionHistory
+	ActionHistory::getInstance()->initialize();
 }
 
 void AppWindow::onUpdate()
@@ -97,17 +98,16 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
 	//UPDATE BASED IN ENGINE STATE
-	if (EngineBackend::getInstance()->getMode() == EngineBackend::EDITOR)
+	if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::EDITOR)
+	{
+		
+	}
+	else if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PLAY)
 	{
 		//UPDATE PHYSICS
 		BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
 	}
-	else if (EngineBackend::getInstance()->getMode() == EngineBackend::PLAY)
-	{
-		//UPDATE PHYSICS
-		BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
-	}
-	else if (EngineBackend::getInstance()->getMode() == EngineBackend::PAUSED)
+	else if (EngineBackend::getInstance()->getMode() == EngineBackend::EditorMode::PAUSED)
 	{
 		if (EngineBackend::getInstance()->insideFrameStep())
 		{
