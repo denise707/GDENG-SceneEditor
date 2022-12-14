@@ -4,7 +4,7 @@
 #include "GameObjectManager.h"
 #include <iostream>
 
-bool DebugScreen::isOpen = true;
+bool DebugScreen::isOpen = false;
 
 DebugScreen::DebugScreen() : AUIScreen("DebugScreen")
 {

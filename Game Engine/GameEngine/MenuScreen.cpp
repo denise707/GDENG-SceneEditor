@@ -4,6 +4,7 @@
 #include "HierarchyScreen.h"
 #include "InspectorScreen.h"
 #include "SceneControlsScreen.h"
+#include "DebugScreen.h"
 #include "GameObjectManager.h"
 
 #include <iostream>
@@ -47,7 +48,7 @@ void MenuScreen::drawUI()
 			if (ImGui::MenuItem("Heirarchy")) { HierarchyScreen::isOpen = true; }
 			if (ImGui::MenuItem("Inspector")) { InspectorScreen::isOpen = true; }
 			if (ImGui::MenuItem("Scene Controls")) { SceneControlsScreen::isOpen = true; }
-			if (ImGui::MenuItem("Debugging Window")) { }
+			if (ImGui::MenuItem("Debugging Window")) { DebugScreen::isOpen = true; }
 			ImGui::EndMenu();
 		}
         ImGui::EndMainMenuBar();
